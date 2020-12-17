@@ -59,7 +59,7 @@
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>10</y>
+      <y>0</y>
       <width>540</width>
       <height>531</height>
      </rect>
@@ -640,7 +640,7 @@ Select the encryption algorithm you want to work with: </string>
       </font>
      </property>
      <property name="text">
-      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the files selecting stage or &quot;Cancel&quot; to exit the CryptQt.</string>
+      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the file selecting stage or &quot;Cancel&quot; to exit the CryptQt.</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -777,7 +777,7 @@ Select the encryption algorithm you want to work with: </string>
       </font>
      </property>
      <property name="text">
-      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the files selecting stage or &quot;Cancel&quot; to exit the CryptQt.</string>
+      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the file selecting stage or &quot;Cancel&quot; to exit the CryptQt.</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -952,6 +952,192 @@ Select the encryption algorithm you want to work with: </string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+    <widget class="QLabel" name="description_7_1">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>330</y>
+       <width>461</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Click &quot;Cancel&quot; to cancel the task and exit the CryptQt.</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="completedGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>4040</x>
+      <y>0</y>
+      <width>541</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: rgb(255, 255, 255);
+	border: none;
+}</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QLabel" name="header_9">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>461</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Completed</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="results">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>140</y>
+       <width>461</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>File processing completed successfully.
+
+Resulting files:</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="keyFile">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>410</y>
+       <width>461</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Key file: </string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QListView" name="resultFileList">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>200</y>
+       <width>461</width>
+       <height>192</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="generatedKeyLineEdit">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>430</y>
+       <width>461</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="description_8_1">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>470</y>
+       <width>461</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Click &quot;Exit&quot; to exit the CryptQt.</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
    <zorder>line</zorder>
    <zorder>sideImage</zorder>
@@ -965,6 +1151,7 @@ Select the encryption algorithm you want to work with: </string>
    <zorder>keyRC4GroupBox</zorder>
    <zorder>keyGroupBox</zorder>
    <zorder>processingGroupBox</zorder>
+   <zorder>completedGroupBox</zorder>
   </widget>
  </widget>
  <resources>
