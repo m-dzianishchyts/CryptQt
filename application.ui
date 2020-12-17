@@ -104,9 +104,9 @@
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>100</y>
+       <y>140</y>
        <width>471</width>
-       <height>221</height>
+       <height>191</height>
       </rect>
      </property>
      <property name="font">
@@ -124,7 +124,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
       <enum>Qt::PlainText</enum>
      </property>
      <property name="alignment">
-      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -173,7 +173,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      <string>&lt; Back</string>
     </property>
    </widget>
-   <widget class="QGroupBox" name="welcomeGroupBox_2">
+   <widget class="QGroupBox" name="modeGroupBox">
     <property name="geometry">
      <rect>
       <x>800</x>
@@ -209,7 +209,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
       </font>
      </property>
      <property name="text">
-      <string>Oparating mode</string>
+      <string>Operating mode</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -222,9 +222,9 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>100</y>
+       <y>140</y>
        <width>471</width>
-       <height>81</height>
+       <height>51</height>
       </rect>
      </property>
      <property name="font">
@@ -240,13 +240,13 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
       <enum>Qt::PlainText</enum>
      </property>
      <property name="alignment">
-      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox">
+    <widget class="QComboBox" name="modeComboBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -270,9 +270,9 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>220</y>
+       <y>250</y>
        <width>471</width>
-       <height>121</height>
+       <height>51</height>
       </rect>
      </property>
      <property name="font">
@@ -288,7 +288,133 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
       <enum>Qt::PlainText</enum>
      </property>
      <property name="alignment">
-      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="welcomeGroupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>1340</x>
+      <y>0</y>
+      <width>541</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: rgb(255, 255, 255);
+	border: none;
+}</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QLabel" name="header_3">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>391</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Encryption algorithm</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="description_3_1">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>140</y>
+       <width>471</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>RSA is a asymmetric encryption algorithm which uses one key for encryption and the other for decryption.
+RC4 is a stream encryption algorithm that can use seed to initialize the random number generator.
+GOST is a block encryption algorithm defined in the standard GOST 28147-89 (Russian standart).
+
+Choose the encryption algorith you want to work with: </string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="algorithmComboBox">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>340</y>
+       <width>150</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Ecnrypt</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Decrypt</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="description_3_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>390</y>
+       <width>471</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the welcome stage or &quot;Cancel&quot; to exit the CryptQt.</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -301,7 +427,8 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
    <zorder>cancelButton</zorder>
    <zorder>nextButton</zorder>
    <zorder>backButton</zorder>
-   <zorder>welcomeGroupBox_2</zorder>
+   <zorder>modeGroupBox</zorder>
+   <zorder>welcomeGroupBox_3</zorder>
   </widget>
  </widget>
  <resources>
