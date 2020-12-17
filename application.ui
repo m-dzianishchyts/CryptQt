@@ -85,7 +85,7 @@
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>18</pointsize>
+       <pointsize>16</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
@@ -112,7 +112,7 @@
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
@@ -203,7 +203,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>18</pointsize>
+       <pointsize>16</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
@@ -230,7 +230,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
@@ -250,7 +250,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>200</y>
+       <y>180</y>
        <width>150</width>
        <height>25</height>
       </rect>
@@ -270,7 +270,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>250</y>
+       <y>230</y>
        <width>471</width>
        <height>51</height>
       </rect>
@@ -278,7 +278,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
@@ -295,7 +295,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="welcomeGroupBox_3">
+   <widget class="QGroupBox" name="algorithmGroupBox">
     <property name="geometry">
      <rect>
       <x>1340</x>
@@ -325,7 +325,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>18</pointsize>
+       <pointsize>16</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
@@ -352,7 +352,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
@@ -376,19 +376,24 @@ Choose the encryption algorith you want to work with: </string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>340</y>
+       <y>320</y>
        <width>150</width>
        <height>25</height>
       </rect>
      </property>
      <item>
       <property name="text">
-       <string>Ecnrypt</string>
+       <string>RC4</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>Decrypt</string>
+       <string>RSA</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>GOST</string>
       </property>
      </item>
     </widget>
@@ -396,7 +401,7 @@ Choose the encryption algorith you want to work with: </string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>390</y>
+       <y>370</y>
        <width>471</width>
        <height>51</height>
       </rect>
@@ -404,7 +409,7 @@ Choose the encryption algorith you want to work with: </string>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
@@ -421,7 +426,7 @@ Choose the encryption algorith you want to work with: </string>
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="welcomeGroupBox_4">
+   <widget class="QGroupBox" name="filesGroupBox">
     <property name="geometry">
      <rect>
       <x>1880</x>
@@ -451,7 +456,7 @@ Choose the encryption algorith you want to work with: </string>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>18</pointsize>
+       <pointsize>16</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
@@ -466,7 +471,7 @@ Choose the encryption algorith you want to work with: </string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="description_3_3">
+    <widget class="QLabel" name="description_4_1">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -478,7 +483,7 @@ Choose the encryption algorith you want to work with: </string>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
@@ -494,7 +499,7 @@ Choose the encryption algorith you want to work with: </string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="description_3_4">
+    <widget class="QLabel" name="description_4_2">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -506,7 +511,7 @@ Choose the encryption algorith you want to work with: </string>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
@@ -522,7 +527,7 @@ Choose the encryption algorith you want to work with: </string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QListView" name="listView">
+    <widget class="QListView" name="fileList">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -532,7 +537,7 @@ Choose the encryption algorith you want to work with: </string>
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="openFileButton">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -546,6 +551,137 @@ Choose the encryption algorith you want to work with: </string>
      </property>
     </widget>
    </widget>
+   <widget class="QGroupBox" name="keyRC4GroupBox">
+    <property name="geometry">
+     <rect>
+      <x>2420</x>
+      <y>0</y>
+      <width>541</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: rgb(255, 255, 255);
+	border: none;
+}</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QLabel" name="header_5">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>391</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>RC4 key</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="description_5_1">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>140</y>
+       <width>471</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Enter the key for the RC4 algorithm or let it be generated randomly:</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="description_5_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>250</y>
+       <width>471</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the encryption algorithm stage or &quot;Cancel&quot; to exit the CryptQt.</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="keyRC4LineEdit">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>180</y>
+       <width>441</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="randRC4keyCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>210</y>
+       <width>201</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Generate the key randomly</string>
+     </property>
+    </widget>
+   </widget>
    <zorder>line</zorder>
    <zorder>sideImage</zorder>
    <zorder>welcomeGroupBox</zorder>
@@ -553,8 +689,9 @@ Choose the encryption algorith you want to work with: </string>
    <zorder>nextButton</zorder>
    <zorder>backButton</zorder>
    <zorder>modeGroupBox</zorder>
-   <zorder>welcomeGroupBox_3</zorder>
-   <zorder>welcomeGroupBox_4</zorder>
+   <zorder>algorithmGroupBox</zorder>
+   <zorder>filesGroupBox</zorder>
+   <zorder>keyRC4GroupBox</zorder>
   </widget>
  </widget>
  <resources>
