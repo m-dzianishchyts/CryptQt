@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>4000</width>
+    <width>5000</width>
     <height>600</height>
    </rect>
   </property>
@@ -59,7 +59,7 @@
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>0</y>
+      <y>10</y>
       <width>540</width>
       <height>531</height>
      </rect>
@@ -78,7 +78,7 @@
       <rect>
        <x>40</x>
        <y>10</y>
-       <width>391</width>
+       <width>461</width>
        <height>91</height>
       </rect>
      </property>
@@ -105,7 +105,7 @@
       <rect>
        <x>40</x>
        <y>140</y>
-       <width>471</width>
+       <width>461</width>
        <height>191</height>
       </rect>
      </property>
@@ -196,7 +196,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
       <rect>
        <x>40</x>
        <y>10</y>
-       <width>391</width>
+       <width>461</width>
        <height>91</height>
       </rect>
      </property>
@@ -223,7 +223,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
       <rect>
        <x>40</x>
        <y>140</y>
-       <width>471</width>
+       <width>461</width>
        <height>51</height>
       </rect>
      </property>
@@ -271,7 +271,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
       <rect>
        <x>40</x>
        <y>230</y>
-       <width>471</width>
+       <width>461</width>
        <height>51</height>
       </rect>
      </property>
@@ -318,7 +318,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
       <rect>
        <x>40</x>
        <y>10</y>
-       <width>391</width>
+       <width>461</width>
        <height>91</height>
       </rect>
      </property>
@@ -345,8 +345,8 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
       <rect>
        <x>40</x>
        <y>140</y>
-       <width>471</width>
-       <height>191</height>
+       <width>461</width>
+       <height>161</height>
       </rect>
      </property>
      <property name="font">
@@ -402,7 +402,7 @@ Select the encryption algorithm you want to work with: </string>
       <rect>
        <x>40</x>
        <y>370</y>
-       <width>471</width>
+       <width>461</width>
        <height>51</height>
       </rect>
      </property>
@@ -449,7 +449,7 @@ Select the encryption algorithm you want to work with: </string>
       <rect>
        <x>40</x>
        <y>10</y>
-       <width>391</width>
+       <width>461</width>
        <height>91</height>
       </rect>
      </property>
@@ -476,7 +476,7 @@ Select the encryption algorithm you want to work with: </string>
       <rect>
        <x>40</x>
        <y>140</y>
-       <width>471</width>
+       <width>461</width>
        <height>31</height>
       </rect>
      </property>
@@ -504,7 +504,7 @@ Select the encryption algorithm you want to work with: </string>
       <rect>
        <x>40</x>
        <y>430</y>
-       <width>471</width>
+       <width>461</width>
        <height>51</height>
       </rect>
      </property>
@@ -532,7 +532,7 @@ Select the encryption algorithm you want to work with: </string>
       <rect>
        <x>40</x>
        <y>210</y>
-       <width>441</width>
+       <width>461</width>
        <height>192</height>
       </rect>
      </property>
@@ -574,7 +574,7 @@ Select the encryption algorithm you want to work with: </string>
       <rect>
        <x>40</x>
        <y>10</y>
-       <width>391</width>
+       <width>461</width>
        <height>91</height>
       </rect>
      </property>
@@ -601,7 +601,7 @@ Select the encryption algorithm you want to work with: </string>
       <rect>
        <x>40</x>
        <y>140</y>
-       <width>471</width>
+       <width>461</width>
        <height>51</height>
       </rect>
      </property>
@@ -629,7 +629,7 @@ Select the encryption algorithm you want to work with: </string>
       <rect>
        <x>40</x>
        <y>250</y>
-       <width>471</width>
+       <width>461</width>
        <height>51</height>
       </rect>
      </property>
@@ -660,7 +660,7 @@ Select the encryption algorithm you want to work with: </string>
       <rect>
        <x>40</x>
        <y>180</y>
-       <width>441</width>
+       <width>461</width>
        <height>22</height>
       </rect>
      </property>
@@ -711,7 +711,7 @@ Select the encryption algorithm you want to work with: </string>
       <rect>
        <x>40</x>
        <y>10</y>
-       <width>391</width>
+       <width>461</width>
        <height>91</height>
       </rect>
      </property>
@@ -738,7 +738,7 @@ Select the encryption algorithm you want to work with: </string>
       <rect>
        <x>40</x>
        <y>140</y>
-       <width>471</width>
+       <width>461</width>
        <height>51</height>
       </rect>
      </property>
@@ -765,8 +765,8 @@ Select the encryption algorithm you want to work with: </string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>250</y>
-       <width>471</width>
+       <y>260</y>
+       <width>461</width>
        <height>51</height>
       </rect>
      </property>
@@ -796,8 +796,8 @@ Select the encryption algorithm you want to work with: </string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>210</y>
-       <width>441</width>
+       <y>220</y>
+       <width>461</width>
        <height>22</height>
       </rect>
      </property>
@@ -809,13 +809,147 @@ Select the encryption algorithm you want to work with: </string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>180</y>
+       <y>190</y>
        <width>93</width>
        <height>30</height>
       </rect>
      </property>
      <property name="text">
       <string>Open file</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="processingGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>3500</x>
+      <y>0</y>
+      <width>541</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: rgb(255, 255, 255);
+	border: none;
+}</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QLabel" name="header_8">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>461</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Processing</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="processingFile">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>140</y>
+       <width>461</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>(File path:)</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="fileProgressBar">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>170</y>
+       <width>461</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="value">
+      <number>24</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="overalTask">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>240</y>
+       <width>461</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Overal task: </string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="overalProgressBar">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>270</y>
+       <width>461</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="value">
+      <number>24</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>
@@ -830,6 +964,7 @@ Select the encryption algorithm you want to work with: </string>
    <zorder>filesGroupBox</zorder>
    <zorder>keyRC4GroupBox</zorder>
    <zorder>keyGroupBox</zorder>
+   <zorder>processingGroupBox</zorder>
   </widget>
  </widget>
  <resources>
