@@ -116,7 +116,7 @@
       </font>
      </property>
      <property name="text">
-      <string>With CryptQt you can encrypt any file using the chosen algorithm. You will be able to choose the encryption key if possible. When encryption is complete, the program will provide you with the encrypted file and the key to it. To decrypt the file, you need to have the necessary key. You can process several files at once.
+      <string>With CryptQt you can encrypt any file using the selected algorithm. You will be able to enter the encryption key if possible. When encryption is complete, the program will provide you with the encrypted file and the key to it. To decrypt the file, you need to have the necessary key. You can process several files at once.
 
 Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</string>
      </property>
@@ -234,7 +234,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
       </font>
      </property>
      <property name="text">
-      <string>Choose &quot;Encrypt&quot; to encrypt a file or &quot;Decrypt&quot; to decrypt one:</string>
+      <string>Select &quot;Encrypt&quot; to encrypt a file or &quot;Decrypt&quot; to decrypt one:</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -360,7 +360,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
 RC4 is a stream encryption algorithm that can use seed to initialize the random number generator.
 GOST is a block encryption algorithm defined in the standard GOST 28147-89 (Russian standart).
 
-Choose the encryption algorith you want to work with: </string>
+Select the encryption algorithm you want to work with: </string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -462,7 +462,7 @@ Choose the encryption algorith you want to work with: </string>
       </font>
      </property>
      <property name="text">
-      <string>Choose files</string>
+      <string>Select files</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -487,7 +487,7 @@ Choose the encryption algorith you want to work with: </string>
       </font>
      </property>
      <property name="text">
-      <string>Choose one or more files that you want to process:</string>
+      <string>Select one or more files that you want to process:</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -640,7 +640,7 @@ Choose the encryption algorith you want to work with: </string>
       </font>
      </property>
      <property name="text">
-      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the encryption algorithm stage or &quot;Cancel&quot; to exit the CryptQt.</string>
+      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the files selecting stage or &quot;Cancel&quot; to exit the CryptQt.</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -653,6 +653,9 @@ Choose the encryption algorith you want to work with: </string>
      </property>
     </widget>
     <widget class="QLineEdit" name="keyRC4LineEdit">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -660,6 +663,9 @@ Choose the encryption algorith you want to work with: </string>
        <width>441</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
      </property>
     </widget>
     <widget class="QCheckBox" name="randRC4keyCheckBox">
@@ -682,6 +688,137 @@ Choose the encryption algorith you want to work with: </string>
      </property>
     </widget>
    </widget>
+   <widget class="QGroupBox" name="keyGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>2960</x>
+      <y>0</y>
+      <width>541</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: rgb(255, 255, 255);
+	border: none;
+}</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QLabel" name="header_7">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>391</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Decryption key</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="description_6_1">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>140</y>
+       <width>471</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Select the key to decrypt the files according to the selected algorithm:</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="description_6_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>250</y>
+       <width>471</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the files selecting stage or &quot;Cancel&quot; to exit the CryptQt.</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="keyLineEdit">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>210</y>
+       <width>441</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="openKeyFileButton">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>180</y>
+       <width>93</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Open file</string>
+     </property>
+    </widget>
+   </widget>
    <zorder>line</zorder>
    <zorder>sideImage</zorder>
    <zorder>welcomeGroupBox</zorder>
@@ -692,6 +829,7 @@ Choose the encryption algorith you want to work with: </string>
    <zorder>algorithmGroupBox</zorder>
    <zorder>filesGroupBox</zorder>
    <zorder>keyRC4GroupBox</zorder>
+   <zorder>keyGroupBox</zorder>
   </widget>
  </widget>
  <resources>
