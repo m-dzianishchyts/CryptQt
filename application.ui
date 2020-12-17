@@ -263,7 +263,7 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      </property>
      <item>
       <property name="text">
-       <string>Ecnrypt</string>
+       <string>Encrypt</string>
       </property>
      </item>
      <item>
@@ -533,16 +533,6 @@ Select the encryption algorithm you want to work with: </string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QListView" name="fileList">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>210</y>
-       <width>461</width>
-       <height>192</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QPushButton" name="openFileButton">
      <property name="geometry">
       <rect>
@@ -554,6 +544,16 @@ Select the encryption algorithm you want to work with: </string>
      </property>
      <property name="text">
       <string>Open file</string>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="fileList">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>210</y>
+       <width>461</width>
+       <height>192</height>
+      </rect>
      </property>
     </widget>
    </widget>
@@ -1090,16 +1090,6 @@ Resulting files:</string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QListView" name="resultFileList">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>200</y>
-       <width>461</width>
-       <height>192</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QLineEdit" name="generatedKeyLineEdit">
      <property name="enabled">
       <bool>true</bool>
@@ -1142,6 +1132,16 @@ Resulting files:</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="resultFileList">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>200</y>
+       <width>461</width>
+       <height>192</height>
+      </rect>
      </property>
     </widget>
    </widget>
