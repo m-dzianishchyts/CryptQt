@@ -25,6 +25,14 @@ private slots:
 
     void on_algorithmComboBox_currentTextChanged(const QString &arg1);
 
+    void on_openFileButton_clicked();
+
+    void on_openKeyFileButton_clicked();
+
+    void on_keyRC4LineEdit_textEdited(const QString &arg1);
+
+    void on_randRC4keyCheckBox_stateChanged(int arg1);
+
 private:
     Ui::Application *ui;
 
