@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>4000</width>
     <height>600</height>
    </rect>
   </property>
@@ -42,8 +42,14 @@
       <x>0</x>
       <y>530</y>
       <width>800</width>
-      <height>3</height>
+      <height>2</height>
      </rect>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -54,19 +60,20 @@
      <rect>
       <x>260</x>
       <y>0</y>
-      <width>541</width>
+      <width>540</width>
       <height>531</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">QGroupBox {
 	background-color: rgb(255, 255, 255);
+	border: none;
 }</string>
     </property>
     <property name="title">
      <string/>
     </property>
-    <widget class="QLabel" name="header">
+    <widget class="QLabel" name="header_1">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -93,13 +100,13 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="description">
+    <widget class="QLabel" name="description_1">
      <property name="geometry">
       <rect>
        <x>40</x>
        <y>100</y>
        <width>471</width>
-       <height>241</height>
+       <height>221</height>
       </rect>
      </property>
      <property name="font">
@@ -115,6 +122,9 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -163,6 +173,135 @@ Click &quot;Next&quot; to continue or &quot;Cancel&quot; to exit the CryptQt.</s
      <string>&lt; Back</string>
     </property>
    </widget>
+   <widget class="QGroupBox" name="welcomeGroupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>0</y>
+      <width>541</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: rgb(255, 255, 255);
+	border: none;
+}</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QLabel" name="header_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>391</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Oparating mode</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="description_2_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>100</y>
+       <width>471</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Choose &quot;Encrypt&quot; to encrypt a file or &quot;Decrypt&quot; to decrypt one:</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>200</y>
+       <width>150</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Ecnrypt</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Decrypt</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="description_2_1">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>220</y>
+       <width>471</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the welcome stage or &quot;Cancel&quot; to exit the CryptQt.</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+   <zorder>line</zorder>
+   <zorder>sideImage</zorder>
+   <zorder>welcomeGroupBox</zorder>
+   <zorder>cancelButton</zorder>
+   <zorder>nextButton</zorder>
+   <zorder>backButton</zorder>
+   <zorder>welcomeGroupBox_2</zorder>
   </widget>
  </widget>
  <resources>
