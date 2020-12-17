@@ -408,7 +408,7 @@ Choose the encryption algorith you want to work with: </string>
       </font>
      </property>
      <property name="text">
-      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the welcome stage or &quot;Cancel&quot; to exit the CryptQt.</string>
+      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the operating mode stage or &quot;Cancel&quot; to exit the CryptQt.</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -421,6 +421,131 @@ Choose the encryption algorith you want to work with: </string>
      </property>
     </widget>
    </widget>
+   <widget class="QGroupBox" name="welcomeGroupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>1880</x>
+      <y>0</y>
+      <width>541</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: rgb(255, 255, 255);
+	border: none;
+}</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QLabel" name="header_4">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>391</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Choose files</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="description_3_3">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>140</y>
+       <width>471</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Choose one or more files that you want to process:</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="description_3_4">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>430</y>
+       <width>471</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Click &quot;Next&quot; to continue, &quot;Back&quot; to return to the encryption algorithm stage or &quot;Cancel&quot; to exit the CryptQt.</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QListView" name="listView">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>210</y>
+       <width>441</width>
+       <height>192</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>180</y>
+       <width>93</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Open file</string>
+     </property>
+    </widget>
+   </widget>
    <zorder>line</zorder>
    <zorder>sideImage</zorder>
    <zorder>welcomeGroupBox</zorder>
@@ -429,6 +554,7 @@ Choose the encryption algorith you want to work with: </string>
    <zorder>backButton</zorder>
    <zorder>modeGroupBox</zorder>
    <zorder>welcomeGroupBox_3</zorder>
+   <zorder>welcomeGroupBox_4</zorder>
   </widget>
  </widget>
  <resources>
