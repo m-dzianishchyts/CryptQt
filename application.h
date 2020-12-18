@@ -1,5 +1,7 @@
 #pragma once
 
+#include "encryptor.h"
+
 #include <QMainWindow>
 #include <QGroupBox>
 
@@ -37,8 +39,8 @@ private:
     Ui::Application *ui;
 
     QList<QGroupBox*>::iterator *currentGroupBox;
-    QString *mode;
-    QString *encryptionAlgorithm;
+    OperationMode mode;
+    EncryptionAlgorithm algorithm;
 
     QList<QGroupBox*> stages;
 };

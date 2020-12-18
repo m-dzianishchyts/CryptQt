@@ -1,6 +1,7 @@
 #include "application.h"
 #include "ui_application.h"
 
+#include <string>
 #include <QMessageBox>
 #include <QFileDialog>
 
@@ -24,8 +25,8 @@ Application::Application(QWidget *parent) : QMainWindow(parent), ui(new Ui::Appl
     stages.append(ui->completedGroupBox);
     currentGroupBox = new QList<QGroupBox*>::iterator(stages.begin());
 
-    encryptionAlgorithm = new QString(ui->algorithmComboBox->currentText());
-    mode = new QString(ui->modeComboBox->currentText());
+    algorithm = algorithmValueOf(ui->algorithmComboBox->currentText().toStdString());
+    mode = modeValueOf(ui->modeComboBox->currentText().toStdString());
 }
 
 Application::~Application() {
@@ -33,7 +34,7 @@ Application::~Application() {
 }
 
 void prepareForEncryption() {
-    // TO DO: prepare the key, files, mode (encrypt/decrypt) and call processFiles(...) from "encryptor.h"
+
 }
 
 void Application::on_backButton_clicked() {
@@ -74,11 +75,12 @@ void Application::on_cancelButton_clicked() {
 }
 
 void Application::on_modeComboBox_currentTextChanged(const QString &value) {
-    if (mode->compare(value) != 0) {
+    OperationMode newMode = modeValueOf(value.toStdString());
+    if (mode != newMode) {
         ui->fileList->clear();
-        *mode = value;
-        if (mode->compare("Encrypt") == 0) {
-            if (encryptionAlgorithm->compare("RC4") == 0) {
+        mode = newMode;
+        if (mode == OperationMode::ENCRYPT) {
+            if (algorithm == EncryptionAlgorithm::RC4) {
                 ui->keyRC4LineEdit->clear();
                 stages.replace(4, ui->keyRC4GroupBox);
             } else {
@@ -86,7 +88,7 @@ void Application::on_modeComboBox_currentTextChanged(const QString &value) {
             }
         } else {
             ui->keyLineEdit->clear();
-            if (encryptionAlgorithm->compare("RC4") == 0) {
+            if (algorithm == EncryptionAlgorithm::RC4) {
                 stages.replace(4, ui->keyGroupBox);
             } else {
                 stages.insert(4, ui->keyGroupBox);
@@ -96,16 +98,17 @@ void Application::on_modeComboBox_currentTextChanged(const QString &value) {
 }
 
 void Application::on_algorithmComboBox_currentTextChanged(const QString &value) {
-    QString oldAlgorithm = *encryptionAlgorithm;
-    if (oldAlgorithm.compare(value) != 0) {
+    EncryptionAlgorithm oldAlgorithm = algorithm;
+    EncryptionAlgorithm newAlgorithm = algorithmValueOf(value.toStdString());
+    if (oldAlgorithm != newAlgorithm) {
         ui->fileList->clear();
         ui->keyLineEdit->clear();
-        *encryptionAlgorithm = value;
-        if (mode->compare("Encrypt") == 0) {
-            if (encryptionAlgorithm->compare("RC4") == 0) {
+        algorithm = newAlgorithm;
+        if (mode == OperationMode::ENCRYPT) {
+            if (algorithm == EncryptionAlgorithm::RC4) {
                 ui->keyRC4LineEdit->clear();
                 stages.insert(4, ui->keyRC4GroupBox);
-            } else if (oldAlgorithm.compare("RC4") == 0) {
+            } else if (oldAlgorithm == EncryptionAlgorithm::RC4) {
                 stages.removeAt(4);
             }
         }
@@ -123,11 +126,11 @@ void Application::on_openFileButton_clicked() {
 
 void Application::on_openKeyFileButton_clicked() {
     QString filter;
-    if (encryptionAlgorithm->compare("RC4") == 0) {
+    if (algorithm == EncryptionAlgorithm::RC4) {
         filter = "RC4 key (*.rc4key)";
-    } else if (encryptionAlgorithm->compare("RSA") == 0) {
+    } else if (algorithm == EncryptionAlgorithm::RSA) {
         filter = "RSA key (*.rsakey)";
-    } else if (encryptionAlgorithm->compare("GOST") == 0) {
+    } else if (algorithm == EncryptionAlgorithm::GOST) {
         filter = "GOST key (*.gostkey)";
     }
     QString filePath = QFileDialog::getOpenFileName(this, "Open file", "C://", filter, &filter);

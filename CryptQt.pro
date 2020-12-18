@@ -9,11 +9,21 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    encryptor.cpp \
+    gost.cpp \
     main.cpp \
-    application.cpp
+    application.cpp \
+    mathutils.cpp \
+    rc4.cpp \
+    rsa.cpp
 
 HEADERS += \
-    application.h
+    application.h \
+    encryptor.h \
+    gost.h \
+    mathutils.h \
+    rc4.h \
+    rsa.h
 
 FORMS += \
     application.ui
