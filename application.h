@@ -4,6 +4,9 @@
 
 #include <QMainWindow>
 #include <QGroupBox>
+#include <QLineEdit>
+#include <vector>
+#include <cstdint>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Application; }
@@ -29,18 +32,22 @@ private slots:
 
     void on_openFileButton_clicked();
 
-    void on_openKeyFileButton_clicked();
+    void on_openEncryptionKeyFileButton_clicked();
 
-    void on_keyRC4LineEdit_textEdited(const QString &arg1);
+    void on_openDecryptionKeyFileButton_clicked();
 
-    void on_randRC4keyCheckBox_stateChanged(int arg1);
+    void on_randEncryptionKeyCheckBox_stateChanged(int newState);
 
 private:
     Ui::Application *ui;
 
     QList<QGroupBox*>::iterator *currentGroupBox;
+    QList<QGroupBox*> stages;
+
     OperationMode mode;
     EncryptionAlgorithm algorithm;
+    std::vector<uint8_t> *key;
 
-    QList<QGroupBox*> stages;
+    void goToProcessing();
+    void on_openKeyFileButton_clicked(QLineEdit *keyFileLineEdit);
 };

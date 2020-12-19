@@ -1,5 +1,9 @@
 #include "application.h"
 #include "ui_application.h"
+#include "encryptor.h"
+#include "rc4.h"
+#include "rsa.h"
+#include "gost.h"
 
 #include <string>
 #include <QMessageBox>
@@ -10,8 +14,11 @@ Application::Application(QWidget *parent) : QMainWindow(parent), ui(new Ui::Appl
     setMaximumSize(800, 600);
     setWindowIcon(QIcon("images/icon.ico"));
 
+    algorithm = algorithmValueOf(ui->algorithmComboBox->currentText().toStdString());
+    mode = modeValueOf(ui->modeComboBox->currentText().toStdString());
+
     for(auto groupBox : {ui->modeGroupBox, ui->algorithmGroupBox, ui->filesGroupBox,
-                         ui->keyRC4GroupBox, ui->keyGroupBox, ui->processingGroupBox,
+                         ui->encryptionKeyGroupBox, ui->decryptionKeyGroupBox, ui->processingGroupBox,
                          ui->completedGroupBox}) {
         groupBox->move(260, 0);
         groupBox->hide();
@@ -20,21 +27,53 @@ Application::Application(QWidget *parent) : QMainWindow(parent), ui(new Ui::Appl
     stages.append(ui->modeGroupBox);
     stages.append(ui->algorithmGroupBox);
     stages.append(ui->filesGroupBox);
-    stages.append(ui->keyRC4GroupBox);
+    if (mode == OperationMode::ENCRYPT) {
+        stages.append(ui->encryptionKeyGroupBox);
+    } else {
+        stages.append(ui->decryptionKeyGroupBox);
+    }
     stages.append(ui->processingGroupBox);
     stages.append(ui->completedGroupBox);
     currentGroupBox = new QList<QGroupBox*>::iterator(stages.begin());
-
-    algorithm = algorithmValueOf(ui->algorithmComboBox->currentText().toStdString());
-    mode = modeValueOf(ui->modeComboBox->currentText().toStdString());
 }
 
 Application::~Application() {
     delete ui;
 }
 
-void prepareForEncryption() {
+void Application::goToProcessing() {
+    AbstractEncryptor *encryptor;
+    QFile keyFile;
+    if (mode == OperationMode::ENCRYPT) {
+        keyFile.setFileName(ui->encryptionKeyLineEdit->text());
+    } else {
+        keyFile.setFileName(ui->decryptionKeyLineEdit->text());
+    }
 
+    if (mode == OperationMode::ENCRYPT && ui->randEncryptionKeyCheckBox->isChecked()) {
+        encryptor = generateEncryptor(algorithm);
+    } else {
+        QDataStream dataStream(&keyFile);
+        std::vector<uint8_t> keyContainer(keyFile.size());
+
+        auto iterator = keyContainer.begin();
+        while (!dataStream.atEnd()) {
+            dataStream >> *iterator.base();
+        }
+        keyFile.close();
+        encryptor = generateEncryptor(algorithm, mode, keyContainer);
+    }
+
+    std::list<std::string> fileList;
+    for (int i = 0; i < ui->fileList->count(); i++) {
+        fileList.push_back(ui->fileList->item(i)->text().toStdString());
+    }
+
+    #ifdef DEBUG
+        encryptor->print();
+    #endif
+    processFiles(*encryptor, mode, fileList);
+    delete(encryptor);
 }
 
 void Application::on_backButton_clicked() {
@@ -51,16 +90,16 @@ void Application::on_nextButton_clicked() {
     currentGroupBox->i->t()->hide();
     (*currentGroupBox)++;
     if (currentGroupBox->i->t() == ui->processingGroupBox) {
-        ui->nextButton->hide();
-        ui->backButton->hide();
+//        ui->nextButton->hide();
+//        ui->backButton->hide();
     }
-    if ((currentGroupBox->i->t() == ui->filesGroupBox && ui->fileList->count() == 0)
-            || (currentGroupBox->i->t() == ui->keyGroupBox && ui->keyLineEdit->text().isEmpty())
-                || (currentGroupBox->i->t() == ui->keyRC4GroupBox && ui->keyRC4LineEdit->text().isEmpty())) {
+    if ((currentGroupBox->i->t() == ui->encryptionKeyGroupBox && ui->encryptionKeyLineEdit->text().isEmpty())
+          || (currentGroupBox->i->t() == ui->decryptionKeyGroupBox && ui->decryptionKeyLineEdit->text().isEmpty())
+            || (currentGroupBox->i->t() == ui->filesGroupBox && ui->fileList->count() == 0)) {
         ui->nextButton->setEnabled(false);
     }
     if (currentGroupBox->i->t() == ui->processingGroupBox) {
-        prepareForEncryption();
+        goToProcessing();
     }
     currentGroupBox->i->t()->show();
     ui->backButton->setEnabled(true);
@@ -80,37 +119,26 @@ void Application::on_modeComboBox_currentTextChanged(const QString &value) {
         ui->fileList->clear();
         mode = newMode;
         if (mode == OperationMode::ENCRYPT) {
-            if (algorithm == EncryptionAlgorithm::RC4) {
-                ui->keyRC4LineEdit->clear();
-                stages.replace(4, ui->keyRC4GroupBox);
-            } else {
-                stages.removeAt(4);
-            }
+            ui->encryptionKeyLineEdit->clear();
+            ui->randEncryptionKeyCheckBox->setCheckState(Qt::CheckState::Unchecked);
+            stages.replace(4, ui->encryptionKeyGroupBox);
         } else {
-            ui->keyLineEdit->clear();
-            if (algorithm == EncryptionAlgorithm::RC4) {
-                stages.replace(4, ui->keyGroupBox);
-            } else {
-                stages.insert(4, ui->keyGroupBox);
-            }
+            ui->decryptionKeyLineEdit->clear();
+            stages.replace(4, ui->decryptionKeyGroupBox);
         }
     }
 }
 
 void Application::on_algorithmComboBox_currentTextChanged(const QString &value) {
-    EncryptionAlgorithm oldAlgorithm = algorithm;
     EncryptionAlgorithm newAlgorithm = algorithmValueOf(value.toStdString());
-    if (oldAlgorithm != newAlgorithm) {
+    if (algorithm != newAlgorithm) {
         ui->fileList->clear();
-        ui->keyLineEdit->clear();
         algorithm = newAlgorithm;
         if (mode == OperationMode::ENCRYPT) {
-            if (algorithm == EncryptionAlgorithm::RC4) {
-                ui->keyRC4LineEdit->clear();
-                stages.insert(4, ui->keyRC4GroupBox);
-            } else if (oldAlgorithm == EncryptionAlgorithm::RC4) {
-                stages.removeAt(4);
-            }
+            ui->encryptionKeyLineEdit->clear();
+            ui->randEncryptionKeyCheckBox->setCheckState(Qt::CheckState::Unchecked);
+        } else {
+            ui->decryptionKeyLineEdit->clear();
         }
     }
 }
@@ -124,7 +152,23 @@ void Application::on_openFileButton_clicked() {
     }
 }
 
-void Application::on_openKeyFileButton_clicked() {
+void Application::on_openEncryptionKeyFileButton_clicked() {
+    on_openKeyFileButton_clicked(ui->encryptionKeyLineEdit);
+}
+
+void Application::on_randEncryptionKeyCheckBox_stateChanged(int newState) {
+    ui->encryptionKeyLineEdit->setEnabled(!newState);
+    ui->openEncryptionKeyFileButton->setEnabled(!newState);
+    if (currentGroupBox->i->t() == ui->encryptionKeyGroupBox) {
+        ui->nextButton->setEnabled(newState || !ui->encryptionKeyLineEdit->text().isEmpty());
+    }
+}
+
+void Application::on_openDecryptionKeyFileButton_clicked() {
+    on_openKeyFileButton_clicked(ui->decryptionKeyLineEdit);
+}
+
+void Application::on_openKeyFileButton_clicked(QLineEdit *keyFileLineEdit) {
     QString filter;
     if (algorithm == EncryptionAlgorithm::RC4) {
         filter = "RC4 key (*.rc4key)";
@@ -135,17 +179,8 @@ void Application::on_openKeyFileButton_clicked() {
     }
     QString filePath = QFileDialog::getOpenFileName(this, "Open file", "C://", filter, &filter);
     if (!filePath.isEmpty()) {
-        ui->keyLineEdit->clear();
-        ui->keyLineEdit->setText(filePath);
+        keyFileLineEdit->clear();
+        keyFileLineEdit->setText(filePath);
         ui->nextButton->setEnabled(true);
     }
-}
-
-void Application::on_keyRC4LineEdit_textEdited(const QString &value) {
-    ui->nextButton->setEnabled(!value.isEmpty());
-}
-
-void Application::on_randRC4keyCheckBox_stateChanged(int state) {
-    ui->keyRC4LineEdit->setEnabled(!state);
-    ui->nextButton->setEnabled(state || !ui->keyRC4LineEdit->text().isEmpty());
 }

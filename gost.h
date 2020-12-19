@@ -1,19 +1,26 @@
 #pragma once
 
+#include "encryptor.h"
+
 #include <cstdint>
 #include <vector>
 
-class EncryptGOST {
+class EncryptorGOST : public AbstractEncryptor {
 
 public:
-    EncryptGOST();
-    EncryptGOST(uint32_t key[8], uint32_t seed);
+    EncryptorGOST();
+    EncryptorGOST(uint32_t key[8]);
+    ~EncryptorGOST() override;
 
     // XOR mode with inverse connection
-    std::vector<uint8_t> *encrypt(const std::vector<uint8_t> &data);
+    std::vector<uint8_t> *encrypt(const std::vector<uint8_t> &data) override;
 
     // XOR mode with inverse connection
-    std::vector<uint8_t> *decrypt(const std::vector<uint8_t> &cipher);
+    std::vector<uint8_t> *decrypt(const std::vector<uint8_t> &cipher) override;
+
+    #ifdef DEBUG
+        void print() override;
+    #endif
 
 private:
 
@@ -42,5 +49,4 @@ private:
     uint32_t basicMesAuthcode(uint32_t n);
 
     uint32_t mesAuthCode(const std::vector<uint32_t> &data);
-
 };

@@ -1,20 +1,28 @@
 #pragma once
 
+#include "encryptor.h"
+
 #include <array>
 #include <cstdint>
 #include <vector>
 
-class EncryptRC4 {
+class EncryptorRC4 : public AbstractEncryptor {
 
 public:
-    EncryptRC4(const std::vector<uint8_t> &key);
+    EncryptorRC4(const std::vector<uint8_t> &key);
+    ~EncryptorRC4() override;
 
-    std::vector<uint8_t> *encrypt(const std::vector<uint8_t> &data);
-    std::vector<uint8_t> *decrypt(const std::vector<uint8_t> &cipher);
+    std::vector<uint8_t> *encrypt(const std::vector<uint8_t> &data) override;
+    std::vector<uint8_t> *decrypt(const std::vector<uint8_t> &cipher) override;
     void reset(const std::vector<uint8_t> &key);
 
+    #ifdef DEBUG
+        void print() override;
+    #endif
+
+
 private:
-    std::array<uint8_t, 256> *sBlock;
+    std::array<uint8_t, 256> *sBlock = nullptr;
     uint16_t x;
     uint16_t y;
 

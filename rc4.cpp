@@ -1,10 +1,15 @@
 #include "rc4.h"
+#include "iostream"
 
-EncryptRC4::EncryptRC4(const std::vector<uint8_t> &key) {
+EncryptorRC4::EncryptorRC4(const std::vector<uint8_t> &key) {
     initSBlock(key);
 }
 
-void EncryptRC4::initSBlock(const std::vector<uint8_t> &key) {
+EncryptorRC4::~EncryptorRC4() {
+    delete(sBlock);
+}
+
+void EncryptorRC4::initSBlock(const std::vector<uint8_t> &key) {
     if (sBlock == nullptr) {
         sBlock = new std::array<uint8_t, 256>();
     }
@@ -18,32 +23,43 @@ void EncryptRC4::initSBlock(const std::vector<uint8_t> &key) {
     }
 }
 
-uint8_t EncryptRC4::keyItem() {
+uint8_t EncryptorRC4::keyItem() {
     x = (x + 1) % sBlock->size();
     y = (y + (*sBlock)[x]) % sBlock->size();
     swap((*sBlock)[x], (*sBlock)[y]);
     return (*sBlock)[((*sBlock)[x] + (*sBlock)[y]) % sBlock->size()];
 }
 
-void EncryptRC4::swap(uint8_t &a, uint8_t &b) {
+void EncryptorRC4::swap(uint8_t &a, uint8_t &b) {
     uint8_t &temp = a;
     a = b;
     b = temp;
 }
 
-std::vector<uint8_t> *EncryptRC4::encrypt(const std::vector<uint8_t> &message) {
-    auto *cipher = new std::vector<uint8_t>(message.size());
+std::vector<uint8_t> *EncryptorRC4::encrypt(const std::vector<uint8_t> &message) {
+    auto cipher = new std::vector<uint8_t>(message.size());
     for (size_t i = 0; i < message.size(); i++) {
         (*cipher)[i] = (message[i] ^ keyItem());
     }
     return cipher;
 }
 
-std::vector<uint8_t> *EncryptRC4::decrypt(const std::vector<uint8_t> &cipher) {
+std::vector<uint8_t> *EncryptorRC4::decrypt(const std::vector<uint8_t> &cipher) {
     return encrypt(cipher);
 }
 
-void EncryptRC4::reset(const std::vector<uint8_t> &key) {
+void EncryptorRC4::reset(const std::vector<uint8_t> &key) {
     initSBlock(key);
     x = y = 0;
 }
+
+#ifdef DEBUG
+void EncryptorRC4::print() {
+    std::cout << "RC4. Key:";
+    for (auto a : *sBlock) {
+        std::cout << " " << (int) a;
+    }
+    std::cout << std::endl;
+}
+#endif
+

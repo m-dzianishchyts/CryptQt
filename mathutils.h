@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+uint64_t currentTimeMs();
+
 int16_t generatePrime();
 bool isProvenPrime(uint64_t num);
 bool isProbablePrime(uint64_t num, uint16_t rounds);

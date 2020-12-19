@@ -557,7 +557,7 @@ Select the encryption algorithm you want to work with: </string>
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="keyRC4GroupBox">
+   <widget class="QGroupBox" name="encryptionKeyGroupBox">
     <property name="geometry">
      <rect>
       <x>2420</x>
@@ -593,7 +593,7 @@ Select the encryption algorithm you want to work with: </string>
       </font>
      </property>
      <property name="text">
-      <string>RC4 key</string>
+      <string>Encryption key</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -618,7 +618,7 @@ Select the encryption algorithm you want to work with: </string>
       </font>
      </property>
      <property name="text">
-      <string>Enter the key for the RC4 algorithm or let it be generated randomly:</string>
+      <string>Enter the key for the selected algorithm or let it be generated randomly:</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -634,7 +634,7 @@ Select the encryption algorithm you want to work with: </string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>250</y>
+       <y>300</y>
        <width>461</width>
        <height>51</height>
       </rect>
@@ -658,29 +658,13 @@ Select the encryption algorithm you want to work with: </string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLineEdit" name="keyRC4LineEdit">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
+    <widget class="QCheckBox" name="randEncryptionKeyCheckBox">
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>180</y>
-       <width>461</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="readOnly">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="randRC4keyCheckBox">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>210</y>
+       <y>260</y>
        <width>201</width>
-       <height>16</height>
+       <height>21</height>
       </rect>
      </property>
      <property name="font">
@@ -693,8 +677,37 @@ Select the encryption algorithm you want to work with: </string>
       <string>Generate the key randomly</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="openEncryptionKeyFileButton">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>190</y>
+       <width>93</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Open file</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="encryptionKeyLineEdit">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>220</y>
+       <width>461</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
-   <widget class="QGroupBox" name="keyGroupBox">
+   <widget class="QGroupBox" name="decryptionKeyGroupBox">
     <property name="geometry">
      <rect>
       <x>2960</x>
@@ -795,7 +808,7 @@ Select the encryption algorithm you want to work with: </string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLineEdit" name="keyLineEdit">
+    <widget class="QLineEdit" name="decryptionKeyLineEdit">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -811,7 +824,7 @@ Select the encryption algorithm you want to work with: </string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="openKeyFileButton">
+    <widget class="QPushButton" name="openDecryptionKeyFileButton">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -1154,8 +1167,8 @@ Resulting files:</string>
    <zorder>modeGroupBox</zorder>
    <zorder>algorithmGroupBox</zorder>
    <zorder>filesGroupBox</zorder>
-   <zorder>keyRC4GroupBox</zorder>
-   <zorder>keyGroupBox</zorder>
+   <zorder>encryptionKeyGroupBox</zorder>
+   <zorder>decryptionKeyGroupBox</zorder>
    <zorder>processingGroupBox</zorder>
    <zorder>completedGroupBox</zorder>
   </widget>

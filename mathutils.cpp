@@ -1,13 +1,19 @@
 #include "mathutils.h"
 
 #include <random>
+#include <chrono>
+
+uint64_t currentTimeMs() {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()
+                                                                 .time_since_epoch()).count();
+}
 
 int16_t generatePrime() {
     uint16_t prime;
-    std::random_device rd;
-    std::uniform_int_distribution<int16_t> dist(0, SHRT_MAX);
+    std::mt19937_64 rng(currentTimeMs());
+    std::uniform_int_distribution<int16_t> dist(10000, SHRT_MAX);
     do {
-        prime = dist(rd);
+        prime = dist(rng);
     } while (!isProbablePrime(prime, 8));
     return prime;
 }
@@ -53,9 +59,9 @@ bool isProbablePrime(uint64_t num, uint16_t rounds) {
 bool millerTest(uint64_t d, uint64_t n) {
     // Pick a random number in [2..n-2] 
     // Corner cases make sure that n > 4
-    std::random_device rd;
+    std::mt19937_64 rng(currentTimeMs());
     std::uniform_int_distribution<uint64_t> dist(0, n - 3);
-    uint64_t a = dist(rd);
+    uint64_t a = dist(rng);
 
     // Compute a^d % n 
     uint64_t x = modPow(a, d, n);
