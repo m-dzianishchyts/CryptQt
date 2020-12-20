@@ -65,7 +65,7 @@ std::vector<uint8_t> *EncryptorRSA::decrypt(const std::vector<uint8_t> &cipher) 
     return processData(cipher, privateExp, modulus, 0);
 }
 
-#ifdef DEBUG
+#ifdef QT_DEBUG
 void EncryptorRSA::print() {
     std::cout << "RSA. Modulus: " << modulus << ". PublicExp: " << publicExp
               << ". PrivateExp: " << privateExp << "." << std::endl;

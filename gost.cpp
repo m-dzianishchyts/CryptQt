@@ -146,7 +146,7 @@ uint32_t EncryptorGOST::mesAuthCode(const std::vector<uint32_t> &data) {
     return s;
 }
 
-#ifdef DEBUG
+#ifdef QT_DEBUG
 void EncryptorGOST::print() {
     std::cout << "GOST. Key:";
     for (auto a : key) {

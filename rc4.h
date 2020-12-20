@@ -5,6 +5,7 @@
 #include <array>
 #include <cstdint>
 #include <vector>
+#include <QtDebug>
 
 class EncryptorRC4 : public AbstractEncryptor {
 
@@ -16,7 +17,7 @@ public:
     std::vector<uint8_t> *decrypt(const std::vector<uint8_t> &cipher) override;
     void reset(const std::vector<uint8_t> &key);
 
-    #ifdef DEBUG
+    #ifdef QT_DEBUG
         void print() override;
     #endif
 

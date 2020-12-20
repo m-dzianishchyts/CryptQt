@@ -5,7 +5,10 @@
 #include "gost.h"
 
 #include <fstream>
+#include <iostream>
 #include <random>
+#include <QDataStream>
+#include <QFile>
 
 AbstractEncryptor::~AbstractEncryptor() {}
 
@@ -16,6 +19,10 @@ AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm) {
         std::uniform_int_distribution<uint8_t> dist(0, CHAR_MAX);
         for (size_t i = 0; i < keyContainer->size(); i++) {
             keyContainer->at(i) = dist(rng);
+        }
+        std::cout << "SOME KEY:";
+        for (auto a : *keyContainer) {
+            std::cout << " " << (int) a;
         }
         EncryptorRC4 *encryptorRC4 = new EncryptorRC4(*keyContainer);
         delete(keyContainer);
@@ -47,22 +54,27 @@ AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm) {
 
 AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, OperationMode mode,
                                      const std::vector<uint8_t> &keyContainer) {
+    std::cout << "SOME KEY:";
+    for (auto a : keyContainer) {
+        std::cout << " " << (int) a;
+    }
+    std::cout << std::endl;
     if (algorithm == EncryptionAlgorithm::RC4) {
         return new EncryptorRC4(keyContainer);
     } else if (algorithm == EncryptionAlgorithm::RSA) {
         EncryptorRSA *encryptorRSA = new EncryptorRSA();
 
         for (uint8_t i = 0; i < 4; i++) {
-            encryptorRSA->modulus = (encryptorRSA->modulus << 8) + keyContainer.at(i);
+            encryptorRSA->modulus = (encryptorRSA->modulus << 8) + keyContainer[i];
         }
 
         if (mode == OperationMode::ENCRYPT) {
-            for (uint8_t i = 5; i < 8; i++) {
-                encryptorRSA->publicExp = (encryptorRSA->publicExp << 8) + keyContainer.at(i);
+            for (uint8_t i = 4; i < 8; i++) {
+                encryptorRSA->publicExp = (encryptorRSA->publicExp << 8) + keyContainer[i];
             }
         } else {
-            for (uint8_t i = 5; i < 8; i++) {
-                encryptorRSA->privateExp = (encryptorRSA->privateExp << 8) + keyContainer.at(i);
+            for (uint8_t i = 4; i < 8; i++) {
+                encryptorRSA->privateExp = (encryptorRSA->privateExp << 8) + keyContainer[i];
             }
         }
 

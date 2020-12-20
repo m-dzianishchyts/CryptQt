@@ -4,6 +4,7 @@
 #include "mathutils.h"
 
 #include <vector>
+#include <QtDebug>
 
 class EncryptorRSA : public AbstractEncryptor {
 
@@ -13,7 +14,7 @@ public:
     std::vector<uint8_t> *encrypt(const std::vector<uint8_t> &data) override;
     std::vector<uint8_t> *decrypt(const std::vector<uint8_t> &cipher) override;
 
-    #ifdef DEBUG
+    #ifdef QT_DEBUG
         void print() override;
     #endif
 

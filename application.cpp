@@ -8,6 +8,7 @@
 #include <string>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QtDebug>
 
 Application::Application(QWidget *parent) : QMainWindow(parent), ui(new Ui::Application) {
     ui->setupUi(this);
@@ -53,15 +54,17 @@ void Application::goToProcessing() {
     if (mode == OperationMode::ENCRYPT && ui->randEncryptionKeyCheckBox->isChecked()) {
         encryptor = generateEncryptor(algorithm);
     } else {
-        QDataStream dataStream(&keyFile);
-        std::vector<uint8_t> keyContainer(keyFile.size());
+        if (keyFile.open(QFile::ReadOnly)) {
+            QDataStream dataStream(&keyFile);
+            std::vector<uint8_t> keyContainer(keyFile.size());
 
-        auto iterator = keyContainer.begin();
-        while (!dataStream.atEnd()) {
-            dataStream >> *iterator.base();
+            auto iterator = keyContainer.begin();
+            while (!dataStream.atEnd()) {
+                dataStream >> *(iterator++);
+            }
+            keyFile.close();
+            encryptor = generateEncryptor(algorithm, mode, keyContainer);
         }
-        keyFile.close();
-        encryptor = generateEncryptor(algorithm, mode, keyContainer);
     }
 
     std::list<std::string> fileList;
@@ -69,7 +72,7 @@ void Application::goToProcessing() {
         fileList.push_back(ui->fileList->item(i)->text().toStdString());
     }
 
-    #ifdef DEBUG
+    #ifdef QT_DEBUG
         encryptor->print();
     #endif
     processFiles(*encryptor, mode, fileList);

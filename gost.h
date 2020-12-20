@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <QtDebug>
 
 class EncryptorGOST : public AbstractEncryptor {
 
@@ -18,7 +19,7 @@ public:
     // XOR mode with inverse connection
     std::vector<uint8_t> *decrypt(const std::vector<uint8_t> &cipher) override;
 
-    #ifdef DEBUG
+    #ifdef QT_DEBUG
         void print() override;
     #endif
 

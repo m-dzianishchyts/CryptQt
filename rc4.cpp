@@ -53,7 +53,7 @@ void EncryptorRC4::reset(const std::vector<uint8_t> &key) {
     x = y = 0;
 }
 
-#ifdef DEBUG
+#ifdef QT_DEBUG
 void EncryptorRC4::print() {
     std::cout << "RC4. Key:";
     for (auto a : *sBlock) {
