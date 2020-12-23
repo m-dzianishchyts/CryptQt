@@ -1,5 +1,6 @@
 #include "rsa.h"
-#include "iostream"
+
+#include <stdio.h>
 
 EncryptorRSA::~EncryptorRSA() {}
 
@@ -14,6 +15,13 @@ uint8_t computeBlockSize(uint64_t modulus) {
 }
 
 std::vector<uint8_t> *processData(const std::vector<uint8_t> &data, uint64_t exp, uint64_t modulus, bool encrypt) {
+    qDebug() << "Read data: ";
+    for (int value : data) {
+        qDebug().noquote() << QString::number(value, 16);
+    }
+    qDebug() << '\n';
+
+
     auto data64 = new std::vector<uint64_t>(data.size());
     for (size_t i = 0; i < data.size(); i++) {
         (*data64)[i] = (uint64_t) data[i];
@@ -48,6 +56,12 @@ std::vector<uint8_t> *processData(const std::vector<uint8_t> &data, uint64_t exp
         } while (lastPoped == 0);
     }
 
+    qDebug() << "Returned data: ";
+    for (int value : *result) {
+        qDebug().noquote() << QString::number(value, 16);
+    }
+    qDebug() << '\n';
+
     return result;
 }
 
@@ -67,7 +81,7 @@ std::vector<uint8_t> *EncryptorRSA::decrypt(const std::vector<uint8_t> &cipher) 
 
 #ifdef QT_DEBUG
 void EncryptorRSA::print() {
-    std::cout << "RSA. Modulus: " << modulus << ". PublicExp: " << publicExp
-              << ". PrivateExp: " << privateExp << "." << std::endl;
+    qDebug() << "RSA. Modulus: " << QString::number(modulus, 16) << ". PublicExp: " << QString::number(publicExp, 16) <<
+                ". PrivateExp: " << QString::number(privateExp, 16) << ".";
 }
 #endif

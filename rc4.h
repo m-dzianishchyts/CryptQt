@@ -24,8 +24,8 @@ public:
 
 private:
     std::array<uint8_t, 256> *sBlock = nullptr;
-    uint16_t x;
-    uint16_t y;
+    uint16_t x = 0;
+    uint16_t y = 0;
 
     void initSBlock(const std::vector<uint8_t> &key);
     uint8_t keyItem();

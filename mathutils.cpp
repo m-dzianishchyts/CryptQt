@@ -199,3 +199,13 @@ uint64_t rightShift64(uint64_t n, size_t k) {
     }
     return n;
 }
+
+uint8_t adjustedSize(uint64_t number) {
+    uint64_t pow = 0x8000000000000000; // 2^63
+    uint8_t i = 0;
+    while (!(pow & number) && pow) {
+        i++;
+        pow >>= 1;
+    }
+    return 64 - i;
+}

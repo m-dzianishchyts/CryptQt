@@ -7,6 +7,15 @@
 #include <algorithm>
 #include <QtDebug>
 
+
+enum EncryptionAlgorithm {
+    RC4, RSA, GOST
+};
+
+enum OperationMode {
+    ENCRYPT, DECRYPT
+};
+
 class AbstractEncryptor {
 
 public:
@@ -18,14 +27,8 @@ public:
     #ifdef QT_DEBUG
         virtual void print() = 0;
     #endif
-};
 
-enum EncryptionAlgorithm {
-    RC4, RSA, GOST
-};
-
-enum OperationMode {
-    ENCRYPT, DECRYPT
+    EncryptionAlgorithm algorithm;
 };
 
 template <typename A, typename B>
@@ -109,8 +112,11 @@ EncryptionAlgorithm algorithmValueOf(std::string str);
 
 OperationMode modeValueOf(std::string str);
 
-void processFiles(AbstractEncryptor &encryptor, bool mode, const std::list<std::string> &files);
+std::string getFileExtensionForAlgorithm(EncryptionAlgorithm algorithm);
 
-AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm);
+void processFiles(AbstractEncryptor &encryptor, bool mode, std::vector<std::string> &files,
+                  std::list<std::string> &processedFiles);
+
+AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::string directory);
 AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, OperationMode mode,
                                      const std::vector<uint8_t> &keyContainer);

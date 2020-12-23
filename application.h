@@ -48,6 +48,6 @@ private:
     EncryptionAlgorithm algorithm;
     std::vector<uint8_t> *key;
 
-    void goToProcessing();
+    void goToProcessing(QStringList &processedFiles, QStringList &failedFiles);
     void on_openKeyFileButton_clicked(QLineEdit *keyFileLineEdit);
 };

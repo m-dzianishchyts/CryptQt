@@ -42,7 +42,11 @@ Application::~Application() {
     delete ui;
 }
 
-void Application::goToProcessing() {
+std::string getDirectoryOfFile(std::string filePath) {
+    return filePath.substr(0, filePath.find_last_of("/") + 1);
+}
+
+void Application::goToProcessing(QStringList &processedFiles, QStringList &failedFiles) {
     AbstractEncryptor *encryptor;
     QFile keyFile;
     if (mode == OperationMode::ENCRYPT) {
@@ -51,8 +55,16 @@ void Application::goToProcessing() {
         keyFile.setFileName(ui->decryptionKeyLineEdit->text());
     }
 
+    std::vector<std::string> files;
+    for (int i = 0; i < ui->fileList->count(); i++) {
+        files.push_back(ui->fileList->item(i)->text().toStdString());
+    }
+
+    bool validEncryptor = false;
     if (mode == OperationMode::ENCRYPT && ui->randEncryptionKeyCheckBox->isChecked()) {
-        encryptor = generateEncryptor(algorithm);
+        std::string dir = getDirectoryOfFile(files.back());
+        encryptor = generateEncryptor(algorithm, dir);
+        validEncryptor = true;
     } else {
         if (keyFile.open(QFile::ReadOnly)) {
             QDataStream dataStream(&keyFile);
@@ -64,18 +76,27 @@ void Application::goToProcessing() {
             }
             keyFile.close();
             encryptor = generateEncryptor(algorithm, mode, keyContainer);
+            validEncryptor = true;
         }
     }
 
-    std::list<std::string> fileList;
-    for (int i = 0; i < ui->fileList->count(); i++) {
-        fileList.push_back(ui->fileList->item(i)->text().toStdString());
+    std::list<std::string> processedFilesStl;
+    if (validEncryptor) {
+        #ifdef QT_DEBUG
+            encryptor->print();
+        #endif
+         qDebug();
+
+        processFiles(*encryptor, mode, files, processedFilesStl);
     }
 
-    #ifdef QT_DEBUG
-        encryptor->print();
-    #endif
-    processFiles(*encryptor, mode, fileList);
+    for (auto filePath : processedFilesStl) {
+        processedFiles.push_back(QString::fromStdString(filePath));
+    }
+    for (auto filePath : files) {
+        failedFiles.push_back(QString::fromStdString(filePath));
+    }
+
     delete(encryptor);
 }
 
@@ -102,7 +123,9 @@ void Application::on_nextButton_clicked() {
         ui->nextButton->setEnabled(false);
     }
     if (currentGroupBox->i->t() == ui->processingGroupBox) {
-        goToProcessing();
+        QStringList processedFiles;
+        QStringList failedFiles;
+        goToProcessing(processedFiles, failedFiles);
     }
     currentGroupBox->i->t()->show();
     ui->backButton->setEnabled(true);

@@ -19,7 +19,7 @@ public:
     #endif
 
 
-    int32_t privateExp;
+    int32_t privateExp = 0;
     int32_t publicExp = 0;
-    uint32_t modulus;
+    uint32_t modulus = 0;
 };

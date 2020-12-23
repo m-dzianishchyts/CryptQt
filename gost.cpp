@@ -4,22 +4,12 @@
 
 #include <random>
 
-EncryptorGOST::EncryptorGOST() {
-    std::mt19937_64 rng(currentTimeMs());
-    std::uniform_int_distribution<uint32_t> dist(0, UINT32_MAX);
-    for (size_t i = 0; i < 8; i++) {
-        key[i] = dist(rng);
-    }
-    seed = dist(rng);
-}
+EncryptorGOST::EncryptorGOST() {}
 
 EncryptorGOST::EncryptorGOST(uint32_t key[8]) {
     for (size_t i = 0; i < 8; i++) {
         EncryptorGOST::key[i] = key[i];
     }
-    std::mt19937_64 rng(currentTimeMs());
-    std::uniform_int_distribution<uint32_t> dist(0, UINT32_MAX);
-    EncryptorGOST::seed = dist(rng);
 }
 
 EncryptorGOST::~EncryptorGOST() {}
@@ -148,11 +138,11 @@ uint32_t EncryptorGOST::mesAuthCode(const std::vector<uint32_t> &data) {
 
 #ifdef QT_DEBUG
 void EncryptorGOST::print() {
-    std::cout << "GOST. Key:";
+    QDebug deb = qDebug();
+    deb << "GOST. Key:";
     for (auto a : key) {
-        std::cout << " " << a;
+        deb << " " << a;
     }
-    std::cout << std::endl;
 }
 #endif
 

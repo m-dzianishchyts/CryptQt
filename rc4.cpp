@@ -1,5 +1,8 @@
 #include "rc4.h"
+
+#ifdef QT_DEBUG
 #include "iostream"
+#endif
 
 EncryptorRC4::EncryptorRC4(const std::vector<uint8_t> &key) {
     initSBlock(key);
@@ -55,11 +58,11 @@ void EncryptorRC4::reset(const std::vector<uint8_t> &key) {
 
 #ifdef QT_DEBUG
 void EncryptorRC4::print() {
-    std::cout << "RC4. Key:";
+    QDebug deb = qDebug();
+    deb << "RC4 Key:";
     for (auto a : *sBlock) {
-        std::cout << " " << (int) a;
+        deb << " " << (int) a;
     }
-    std::cout << std::endl;
 }
 #endif
 

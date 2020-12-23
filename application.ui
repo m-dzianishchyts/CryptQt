@@ -1063,7 +1063,7 @@ Select the encryption algorithm you want to work with: </string>
      <property name="text">
       <string>File processing completed successfully.
 
-Resulting files:</string>
+Created files:</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -1147,14 +1147,52 @@ Resulting files:</string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QListWidget" name="resultFileList">
+    <widget class="QListWidget" name="createdFileList">
      <property name="geometry">
       <rect>
        <x>40</x>
        <y>200</y>
        <width>461</width>
-       <height>192</height>
+       <height>81</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="failedFileList">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>320</y>
+       <width>461</width>
+       <height>81</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="failed">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>300</y>
+       <width>461</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Failed files:</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </widget>
