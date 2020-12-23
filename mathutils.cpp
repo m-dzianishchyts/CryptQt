@@ -2,15 +2,17 @@
 
 #include <random>
 #include <chrono>
+#include <QThread>
 
-uint64_t currentTimeMs() {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()
+uint64_t currentTime() {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()
                                                                  .time_since_epoch()).count();
 }
 
 int16_t generatePrime() {
     uint16_t prime;
-    std::mt19937_64 rng(currentTimeMs());
+    QThread::usleep(1);
+    std::mt19937_64 rng(currentTime());
     std::uniform_int_distribution<int16_t> dist(10000, SHRT_MAX);
     do {
         prime = dist(rng);
@@ -59,7 +61,7 @@ bool isProbablePrime(uint64_t num, uint16_t rounds) {
 bool millerTest(uint64_t d, uint64_t n) {
     // Pick a random number in [2..n-2] 
     // Corner cases make sure that n > 4
-    std::mt19937_64 rng(currentTimeMs());
+    std::mt19937_64 rng(currentTime());
     std::uniform_int_distribution<uint64_t> dist(0, n - 3);
     uint64_t a = dist(rng);
 

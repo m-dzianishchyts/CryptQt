@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-uint64_t currentTimeMs();
+uint64_t currentTime();
 
 int16_t generatePrime();
 bool isProvenPrime(uint64_t num);

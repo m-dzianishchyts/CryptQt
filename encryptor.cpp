@@ -25,7 +25,7 @@ void saveKeyGOST(const std::vector<uint32_t> gostKey, std::string directory);
 AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::string directory) {
     if (algorithm == EncryptionAlgorithm::RC4) {
         auto keyContainer = new std::vector<uint8_t>(64);
-        std::mt19937_64 rng(currentTimeMs());
+        std::mt19937_64 rng(currentTime());
         std::uniform_int_distribution<uint8_t> dist(0, CHAR_MAX);
         for (size_t i = 0; i < keyContainer->size(); i++) {
             keyContainer->at(i) = dist(rng);
@@ -71,7 +71,7 @@ AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::s
     }
     EncryptorGOST *encryptorGOST = new EncryptorGOST();
     encryptorGOST->algorithm = EncryptionAlgorithm::GOST;
-    std::mt19937_64 rng(currentTimeMs());
+    std::mt19937_64 rng(currentTime());
     std::uniform_int_distribution<uint32_t> dist(0, UINT32_MAX);
     std::vector<uint32_t> gostKey;
     for (size_t i = 0; i < 8; i++) {
