@@ -15,11 +15,11 @@ uint8_t computeBlockSize(uint64_t modulus) {
 }
 
 std::vector<uint8_t> *processData(const std::vector<uint8_t> &data, uint64_t exp, uint64_t modulus, bool encrypt) {
-    qDebug() << "Read data: ";
-    for (int value : data) {
-        qDebug().noquote() << QString::number(value, 16);
-    }
-    qDebug() << '\n';
+//    qDebug() << "Read data: ";
+//    for (int value : data) {
+//        qDebug().noquote() << QString::number(value, 16);
+//    }
+//    qDebug() << '\n';
 
 
     auto data64 = new std::vector<uint64_t>(data.size());
@@ -56,11 +56,11 @@ std::vector<uint8_t> *processData(const std::vector<uint8_t> &data, uint64_t exp
         } while (lastPoped == 0);
     }
 
-    qDebug() << "Returned data: ";
-    for (int value : *result) {
-        qDebug().noquote() << QString::number(value, 16);
-    }
-    qDebug() << '\n';
+//    qDebug() << "Returned data: ";
+//    for (int value : *result) {
+//        qDebug().noquote() << QString::number(value, 16);
+//    }
+//    qDebug() << '\n';
 
     return result;
 }

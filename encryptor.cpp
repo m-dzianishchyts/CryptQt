@@ -11,8 +11,6 @@
 #include <QFile>
 #include <QDebug>
 
-// сделать генерацию ключей в виде файлов (2 ключа для RSA)
-//
 // сделать индикацию прогресса шифрования на прогресс барах
 
 AbstractEncryptor::~AbstractEncryptor() {}
@@ -123,13 +121,13 @@ AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, OperationMod
 }
 
 void saveKeyRC4(const std::vector<uint8_t> &keyContainer, const std::string directory) {
-    std::ofstream ofs(directory + "key.rc4key");
+    std::ofstream ofs(directory + "key.rc4key", std::ios::out | std::ios::binary);
     ofs.write(reinterpret_cast<const char *>(keyContainer.data()), keyContainer.size());
     ofs.close();
 }
 
 void savePublicKeyRSA(uint32_t modulus, uint32_t publicExp, std::string directory) {
-    std::ofstream ofs(directory + "publicKey.rsakey");
+    std::ofstream ofs(directory + "publicKey.rsakey", std::ios::out | std::ios::binary);
     for (int8_t i = 3; i >= 0; i--) {
         ofs.put((char) (modulus >> (i * 8)) & 0xFF);
     }
@@ -140,7 +138,7 @@ void savePublicKeyRSA(uint32_t modulus, uint32_t publicExp, std::string director
 }
 
 void savePrivateKeyRSA(uint32_t modulus, uint32_t privateExp, std::string directory) {
-    std::ofstream ofs(directory + "privateKey.rsakey");
+    std::ofstream ofs(directory + "privateKey.rsakey", std::ios::out | std::ios::binary);
     for (int8_t i = 3; i >= 0; i--) {
         ofs.put((char) (modulus >> (i * 8)) & 0xFF);
     }
@@ -151,7 +149,7 @@ void savePrivateKeyRSA(uint32_t modulus, uint32_t privateExp, std::string direct
 }
 
 void saveKeyGOST(const std::vector<uint32_t> gostKey, std::string directory) {
-    std::ofstream ofs(directory + "key.gostkey");
+    std::ofstream ofs(directory + "key.gostkey", std::ios::out | std::ios::binary);
     for (auto value : gostKey) {
         for (int8_t i = 3; i >= 0; i--) {
             ofs.put((char) (value >> (i * 8)) & 0xFF);
@@ -212,8 +210,6 @@ std::string getFileExtensionForAlgorithm(EncryptionAlgorithm algorithm) {
     return ".gost";
 }
 
-
-
 std::string getFileExtensionFromPath(std::string filePath) {
     int dotPos = filePath.find_last_of('.');
     return dotPos >= 0 ? filePath.substr(dotPos) : "";
@@ -261,7 +257,7 @@ void processFiles(AbstractEncryptor &encryptor, bool mode, std::vector<std::stri
             int dotPos = files[i - 1].find_last_of('.');
             std::string processedFilePath = files[i - 1].substr(0, dotPos > -1 ? dotPos : files[i - 1].length())
                     .append(fileExtension);
-            ofs.open(processedFilePath);
+            ofs.open(processedFilePath, std::ios::out | std::ios::binary);
             if (!ofs.fail()) {
                 ofs.write(reinterpret_cast<char *>(processedData->data()), processedData->size());
                 ofs.close();
