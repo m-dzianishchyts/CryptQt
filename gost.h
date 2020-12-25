@@ -6,12 +6,12 @@
 #include <vector>
 #include <QtDebug>
 
-class EncryptorGOST : public AbstractEncryptor {
+class EncryptorGOST_28147_89 : public AbstractEncryptor {
 
 public:
-    EncryptorGOST();
-    EncryptorGOST(uint32_t key[8]);
-    ~EncryptorGOST() override;
+    EncryptorGOST_28147_89();
+    EncryptorGOST_28147_89(uint32_t key[8]);
+    ~EncryptorGOST_28147_89() override;
 
     // XOR mode with inverse connection
     std::vector<uint8_t> *encrypt(const std::vector<uint8_t> &data) override;

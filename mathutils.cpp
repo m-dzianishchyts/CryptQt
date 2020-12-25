@@ -2,7 +2,6 @@
 
 #include <random>
 #include <chrono>
-#include <QThread>
 
 uint64_t currentTime() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()
@@ -11,7 +10,6 @@ uint64_t currentTime() {
 
 int16_t generatePrime() {
     uint16_t prime;
-    QThread::usleep(1);
     std::mt19937_64 rng(currentTime());
     std::uniform_int_distribution<int16_t> dist(10000, SHRT_MAX);
     do {

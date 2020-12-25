@@ -6,10 +6,10 @@
 #include <string>
 #include <algorithm>
 #include <QtDebug>
-
+#include <QLabel>
 
 enum EncryptionAlgorithm {
-    RC4, RSA, GOST
+    RC4, RSA, GOST_28147_89
 };
 
 enum OperationMode {
@@ -114,9 +114,10 @@ OperationMode modeValueOf(std::string str);
 
 std::string getFileExtensionForAlgorithm(EncryptionAlgorithm algorithm);
 
-void processFiles(AbstractEncryptor &encryptor, bool mode, std::vector<std::string> &files,
-                  std::list<std::string> &processedFiles);
+void processFiles(AbstractEncryptor &encryptor, bool mode, bool &cancelState, std::vector<std::string> &files,
+                  std::list<std::string> &processedFiles, QLabel &progressLabel);
 
-AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::string directory);
+AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::string directory,
+                                     std::list<std::string> &generatedKeyPaths);
 AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, OperationMode mode,
                                      const std::vector<uint8_t> &keyContainer);

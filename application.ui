@@ -841,172 +841,10 @@ Select the encryption algorithm you want to work with: </string>
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="processingGroupBox">
-    <property name="geometry">
-     <rect>
-      <x>3500</x>
-      <y>0</y>
-      <width>541</width>
-      <height>531</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QGroupBox {
-	background-color: rgb(255, 255, 255);
-	border: none;
-}</string>
-    </property>
-    <property name="title">
-     <string/>
-    </property>
-    <widget class="QLabel" name="header_8">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>10</y>
-       <width>461</width>
-       <height>91</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Segoe UI</family>
-       <pointsize>16</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Processing</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QLabel" name="processingFile">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>140</y>
-       <width>461</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Segoe UI</family>
-       <pointsize>9</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>(File path:)</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QProgressBar" name="fileProgressBar">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>170</y>
-       <width>461</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="value">
-      <number>24</number>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="overalTask">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>240</y>
-       <width>461</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Segoe UI</family>
-       <pointsize>9</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Overal task: </string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QProgressBar" name="overalProgressBar">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>270</y>
-       <width>461</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="value">
-      <number>24</number>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="description_7_1">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>330</y>
-       <width>461</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Segoe UI</family>
-       <pointsize>9</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Click &quot;Cancel&quot; to cancel the task and exit the CryptQt.</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </widget>
    <widget class="QGroupBox" name="completedGroupBox">
     <property name="geometry">
      <rect>
-      <x>4040</x>
+      <x>3500</x>
       <y>0</y>
       <width>541</width>
       <height>531</height>
@@ -1066,7 +904,7 @@ Select the encryption algorithm you want to work with: </string>
      <property name="text">
       <string>File processing completed successfully.
 
-Created files:</string>
+Processed files:</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -1082,7 +920,7 @@ Created files:</string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>410</y>
+       <y>390</y>
        <width>461</width>
        <height>21</height>
       </rect>
@@ -1094,7 +932,7 @@ Created files:</string>
       </font>
      </property>
      <property name="text">
-      <string>Key file: </string>
+      <string>Key files: </string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -1103,22 +941,6 @@ Created files:</string>
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
      <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="generatedKeyLineEdit">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>430</y>
-       <width>461</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="readOnly">
       <bool>true</bool>
      </property>
     </widget>
@@ -1150,7 +972,7 @@ Created files:</string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QListWidget" name="createdFileList">
+    <widget class="QListWidget" name="processedFileList">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -1166,7 +988,7 @@ Created files:</string>
        <x>40</x>
        <y>320</y>
        <width>461</width>
-       <height>81</height>
+       <height>61</height>
       </rect>
      </property>
     </widget>
@@ -1198,18 +1020,41 @@ Created files:</string>
       <bool>true</bool>
      </property>
     </widget>
+    <widget class="QListWidget" name="generatedKeysList">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>410</y>
+       <width>461</width>
+       <height>41</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="loadingLabel">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>550</y>
-      <width>32</width>
-      <height>32</height>
+      <x>470</x>
+      <y>555</y>
+      <width>24</width>
+      <height>24</height>
      </rect>
     </property>
     <property name="text">
      <string>gif</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="progressLabel">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>560</y>
+      <width>150</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Working on... [0/0]</string>
     </property>
    </widget>
    <zorder>line</zorder>
@@ -1223,9 +1068,9 @@ Created files:</string>
    <zorder>filesGroupBox</zorder>
    <zorder>encryptionKeyGroupBox</zorder>
    <zorder>decryptionKeyGroupBox</zorder>
-   <zorder>processingGroupBox</zorder>
    <zorder>completedGroupBox</zorder>
    <zorder>loadingLabel</zorder>
+   <zorder>progressLabel</zorder>
   </widget>
  </widget>
  <resources>

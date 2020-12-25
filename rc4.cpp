@@ -41,10 +41,10 @@ void EncryptorRC4::swap(uint8_t &a, uint8_t &b) {
     b = temp;
 }
 
-std::vector<uint8_t> *EncryptorRC4::encrypt(const std::vector<uint8_t> &message) {
-    auto cipher = new std::vector<uint8_t>(message.size());
-    for (size_t i = 0; i < message.size(); i++) {
-        (*cipher)[i] = (message[i] ^ keyItem());
+std::vector<uint8_t> *EncryptorRC4::encrypt(const std::vector<uint8_t> &data) {
+    auto cipher = new std::vector<uint8_t>(data.size());
+    for (size_t i = 0; i < data.size(); i++) {
+        (*cipher)[i] = (data[i] ^ keyItem());
     }
     reset();
     return cipher;

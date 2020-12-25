@@ -6,6 +6,7 @@
 #include <QGroupBox>
 #include <QLineEdit>
 #include <vector>
+#include <thread>
 #include <cstdint>
 
 QT_BEGIN_NAMESPACE
@@ -43,11 +44,13 @@ private:
 
     QList<QGroupBox*>::iterator *currentGroupBox;
     QList<QGroupBox*> stages;
-
     OperationMode mode;
     EncryptionAlgorithm algorithm;
     std::vector<uint8_t> *key;
 
-    void goToProcessing(QStringList &processedFiles, QStringList &failedFiles);
+    void goToProcessing();
     void on_openKeyFileButton_clicked(QLineEdit *keyFileLineEdit);
+    std::thread *worker = nullptr;
+    bool onExit = false;
+    bool inDialog = false;
 };

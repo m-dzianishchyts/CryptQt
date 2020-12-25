@@ -10,17 +10,18 @@
 #include <QDataStream>
 #include <QFile>
 #include <QDebug>
+#include <QThread>
 
-// сделать индикацию прогресса шифрования на прогресс барах
 
 AbstractEncryptor::~AbstractEncryptor() {}
 
-void saveKeyRC4(const std::vector<uint8_t> &keyContainer, std::string directory);
-void savePublicKeyRSA(uint32_t modulus, uint32_t publicExp, std::string directory);
-void savePrivateKeyRSA(uint32_t modulus, uint32_t privateExp, std::string directory);
-void saveKeyGOST(const std::vector<uint32_t> gostKey, std::string directory);
+std::string saveKeyRC4(const std::vector<uint8_t> &keyContainer, std::string directory);
+std::string savePublicKeyRSA(uint32_t modulus, uint32_t publicExp, std::string directory);
+std::string savePrivateKeyRSA(uint32_t modulus, uint32_t privateExp, std::string directory);
+std::string saveKeyGOST_28147_89(const std::vector<uint32_t> gostKey, std::string directory);
 
-AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::string directory) {
+AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::string directory,
+                                     std::list<std::string> &generatedKeyPaths) {
     if (algorithm == EncryptionAlgorithm::RC4) {
         auto keyContainer = new std::vector<uint8_t>(64);
         std::mt19937_64 rng(currentTime());
@@ -39,7 +40,7 @@ AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::s
 
         EncryptorRC4 *encryptorRC4 = new EncryptorRC4(*keyContainer);
         encryptorRC4->algorithm = EncryptionAlgorithm::RC4;
-        saveKeyRC4(*keyContainer, directory);
+        generatedKeyPaths.push_back(saveKeyRC4(*keyContainer, directory));
         delete(keyContainer);
         return encryptorRC4;
     } else if (algorithm == EncryptionAlgorithm::RSA) {
@@ -47,6 +48,7 @@ AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::s
         encryptorRSA->algorithm = EncryptionAlgorithm::RSA;
 
         int16_t p = generatePrime();
+        QThread::usleep(1);
         int16_t q = generatePrime();
         encryptorRSA->modulus = p * q;
         int32_t phi = (p - 1) * (q - 1);
@@ -63,22 +65,22 @@ AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::s
             }
         }
         encryptorRSA->privateExp = static_cast<uint32_t>(modInverse(encryptorRSA->publicExp, phi));
-        savePublicKeyRSA(encryptorRSA->modulus, encryptorRSA->publicExp, directory);
-        savePrivateKeyRSA(encryptorRSA->modulus, encryptorRSA->privateExp, directory);
+        generatedKeyPaths.push_back(savePublicKeyRSA(encryptorRSA->modulus, encryptorRSA->publicExp, directory));
+        generatedKeyPaths.push_back(savePrivateKeyRSA(encryptorRSA->modulus, encryptorRSA->privateExp, directory));
         return encryptorRSA;
     }
-    EncryptorGOST *encryptorGOST = new EncryptorGOST();
-    encryptorGOST->algorithm = EncryptionAlgorithm::GOST;
+    EncryptorGOST_28147_89 *encryptorGOST_28147_89 = new EncryptorGOST_28147_89();
+    encryptorGOST_28147_89->algorithm = EncryptionAlgorithm::GOST_28147_89;
     std::mt19937_64 rng(currentTime());
     std::uniform_int_distribution<uint32_t> dist(0, UINT32_MAX);
     std::vector<uint32_t> gostKey;
     for (size_t i = 0; i < 8; i++) {
         gostKey.push_back(dist(rng));
-        encryptorGOST->key[i] = gostKey.back();
+        encryptorGOST_28147_89->key[i] = gostKey.back();
     }
-    saveKeyGOST(gostKey, directory);
-    encryptorGOST->seed = dist(rng);
-    return encryptorGOST;
+    generatedKeyPaths.push_back(saveKeyGOST_28147_89(gostKey, directory));
+    encryptorGOST_28147_89->seed = dist(rng);
+    return encryptorGOST_28147_89;
 }
 
 AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, OperationMode mode,
@@ -113,21 +115,24 @@ AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, OperationMod
         encryptor = encryptorRSA;
     } else {
         auto gostKey = resize<uint8_t, uint32_t>(keyContainer);
-        encryptor = new EncryptorGOST(gostKey->data());
-        encryptor->algorithm = EncryptionAlgorithm::GOST;
+        encryptor = new EncryptorGOST_28147_89(gostKey->data());
+        encryptor->algorithm = EncryptionAlgorithm::GOST_28147_89;
         delete(gostKey);
     }
     return encryptor;
 }
 
-void saveKeyRC4(const std::vector<uint8_t> &keyContainer, const std::string directory) {
+std::string saveKeyRC4(const std::vector<uint8_t> &keyContainer, const std::string directory) {
+    std::string keyFilePath = directory + "key.rc4key";
     std::ofstream ofs(directory + "key.rc4key", std::ios::out | std::ios::binary);
     ofs.write(reinterpret_cast<const char *>(keyContainer.data()), keyContainer.size());
     ofs.close();
+    return keyFilePath;
 }
 
-void savePublicKeyRSA(uint32_t modulus, uint32_t publicExp, std::string directory) {
-    std::ofstream ofs(directory + "publicKey.rsakey", std::ios::out | std::ios::binary);
+std::string savePublicKeyRSA(uint32_t modulus, uint32_t publicExp, std::string directory) {
+    std::string publicKeyFilePath = directory + "publicKey.rsakey";
+    std::ofstream ofs(publicKeyFilePath, std::ios::out | std::ios::binary);
     for (int8_t i = 3; i >= 0; i--) {
         ofs.put((char) (modulus >> (i * 8)) & 0xFF);
     }
@@ -135,10 +140,12 @@ void savePublicKeyRSA(uint32_t modulus, uint32_t publicExp, std::string director
         ofs.put((char) (publicExp >> (i * 8)) & 0xFF);
     }
     ofs.close();
+    return publicKeyFilePath;
 }
 
-void savePrivateKeyRSA(uint32_t modulus, uint32_t privateExp, std::string directory) {
-    std::ofstream ofs(directory + "privateKey.rsakey", std::ios::out | std::ios::binary);
+std::string savePrivateKeyRSA(uint32_t modulus, uint32_t privateExp, std::string directory) {
+    std::string privateKeyFilePath = directory + "privateKey.rsakey";
+    std::ofstream ofs(privateKeyFilePath, std::ios::out | std::ios::binary);
     for (int8_t i = 3; i >= 0; i--) {
         ofs.put((char) (modulus >> (i * 8)) & 0xFF);
     }
@@ -146,16 +153,19 @@ void savePrivateKeyRSA(uint32_t modulus, uint32_t privateExp, std::string direct
         ofs.put((char) (privateExp >> (i * 8)) & 0xFF);
     }
     ofs.close();
+    return privateKeyFilePath;
 }
 
-void saveKeyGOST(const std::vector<uint32_t> gostKey, std::string directory) {
-    std::ofstream ofs(directory + "key.gostkey", std::ios::out | std::ios::binary);
+std::string saveKeyGOST_28147_89(const std::vector<uint32_t> gostKey, std::string directory) {
+    std::string keyFilePath = directory + "key.gostkey";
+    std::ofstream ofs(keyFilePath, std::ios::out | std::ios::binary);
     for (auto value : gostKey) {
         for (int8_t i = 3; i >= 0; i--) {
             ofs.put((char) (value >> (i * 8)) & 0xFF);
         }
     }
     ofs.close();
+    return keyFilePath;
 }
 
 EncryptionAlgorithm algorithmValueOf(std::string str) {
@@ -167,7 +177,7 @@ EncryptionAlgorithm algorithmValueOf(std::string str) {
     } else if (str.compare("RSA") == 0) {
         return EncryptionAlgorithm::RSA;
     }
-    return EncryptionAlgorithm::GOST;
+    return EncryptionAlgorithm::GOST_28147_89;
 }
 
 OperationMode modeValueOf(std::string str) {
@@ -215,8 +225,10 @@ std::string getFileExtensionFromPath(const std::string &filePath) {
     return dotPos >= 0 ? filePath.substr(dotPos) : "";
 }
 
-void processFiles(AbstractEncryptor &encryptor, bool mode, std::vector<std::string> &files,
-                  std::list<std::string> &processedFiles) {
+void processFiles(AbstractEncryptor &encryptor, bool mode, bool &cancelState, std::vector<std::string> &files,
+                  std::list<std::string> &processedFiles, QLabel &progressLabel) {
+    uint64_t fileCounter = 0;
+    progressLabel.setText(QString::asprintf("%3llu / %-3llu", fileCounter, files.size() + processedFiles.size()));
     std::string resultfileExtension;
     if (mode == OperationMode::ENCRYPT) {
         resultfileExtension = getFileExtensionForAlgorithm(encryptor.algorithm);
@@ -224,7 +236,7 @@ void processFiles(AbstractEncryptor &encryptor, bool mode, std::vector<std::stri
 
     std::ifstream ifs;
     std::ofstream ofs;
-    for (size_t i = 1; i < files.size() + 1;) {
+    for (size_t i = 1; i < files.size() + 1 && !cancelState;) {
         ifs.open(files[i - 1], std::ios::in | std::ios::binary);
         if (!ifs.fail()) {
             std::vector<uint8_t> contents((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
@@ -259,6 +271,7 @@ void processFiles(AbstractEncryptor &encryptor, bool mode, std::vector<std::stri
             if (!ofs.fail()) {
                 ofs.write(reinterpret_cast<char *>(processedData->data()), processedData->size());
                 ofs.close();
+                delete(processedData);
                 processedFiles.push_back(processedFilePath);
                 files.erase(files.begin() + i - 1);
             } else {
@@ -266,6 +279,17 @@ void processFiles(AbstractEncryptor &encryptor, bool mode, std::vector<std::stri
             }
         } else {
             i++;
+        }
+
+        if (!cancelState) {
+            progressLabel.setText(QString::asprintf("Working on... [%llu / %-llu]", ++fileCounter,
+                                                    files.size() + processedFiles.size()));
+        }
+    }
+
+    if (cancelState) {
+        for (const auto &filePath : processedFiles) {
+            remove(filePath.c_str());
         }
     }
 }
