@@ -9,11 +9,17 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QtDebug>
+#include <QMovie>
 
 Application::Application(QWidget *parent) : QMainWindow(parent), ui(new Ui::Application) {
     ui->setupUi(this);
     setMaximumSize(800, 600);
-    setWindowIcon(QIcon("images/icon.ico"));
+    setWindowIcon(QIcon(":/images/icon.ico"));
+
+    auto movie = new QMovie(":/images/loading.gif");
+    ui->loadingLabel->setMovie(movie);
+    ui->loadingLabel->setScaledContents(true);
+    movie->start();
 
     algorithm = algorithmValueOf(ui->algorithmComboBox->currentText().toStdString());
     mode = modeValueOf(ui->modeComboBox->currentText().toStdString());
@@ -47,7 +53,7 @@ std::string getDirectoryOfFile(std::string filePath) {
 }
 
 void Application::goToProcessing(QStringList &processedFiles, QStringList &failedFiles) {
-    AbstractEncryptor *encryptor;
+    AbstractEncryptor *encryptor = nullptr;
     QFile keyFile;
     if (mode == OperationMode::ENCRYPT) {
         keyFile.setFileName(ui->encryptionKeyLineEdit->text());
@@ -77,27 +83,33 @@ void Application::goToProcessing(QStringList &processedFiles, QStringList &faile
             keyFile.close();
             encryptor = generateEncryptor(algorithm, mode, keyContainer);
             validEncryptor = true;
+        } else {
+            QMessageBox::critical(this, "Key file error",
+                "The selected key file was not found. Select the key file again.",
+                QMessageBox::StandardButton::Ok);
         }
     }
 
-    std::list<std::string> processedFilesStl;
-    if (validEncryptor) {
-        #ifdef QT_DEBUG
-            encryptor->print();
-        #endif
-         qDebug();
+    if (encryptor != nullptr) {
+        std::list<std::string> processedFilesStl;
+        if (validEncryptor) {
+            #ifdef QT_DEBUG
+                encryptor->print();
+            #endif
+             qDebug();
 
-        processFiles(*encryptor, mode, files, processedFilesStl);
-    }
+            processFiles(*encryptor, mode, files, processedFilesStl);
+        }
 
-    for (auto filePath : processedFilesStl) {
-        processedFiles.push_back(QString::fromStdString(filePath));
-    }
-    for (auto filePath : files) {
-        failedFiles.push_back(QString::fromStdString(filePath));
-    }
+        for (const auto &filePath : processedFilesStl) {
+            processedFiles.push_back(QString::fromStdString(filePath));
+        }
+        for (const auto &filePath : files) {
+            failedFiles.push_back(QString::fromStdString(filePath));
+        }
 
-    delete(encryptor);
+        delete(encryptor);
+    }
 }
 
 void Application::on_backButton_clicked() {
@@ -110,6 +122,12 @@ void Application::on_backButton_clicked() {
     currentGroupBox->i->t()->show();
 }
 
+// TO_DO:
+// * show error if key file not found
+// * fix GOST
+// * rename GOST to GOST-numbers
+// * refactor
+// * multithread
 void Application::on_nextButton_clicked() {
     currentGroupBox->i->t()->hide();
     (*currentGroupBox)++;
@@ -170,7 +188,20 @@ void Application::on_algorithmComboBox_currentTextChanged(const QString &value) 
 }
 
 void Application::on_openFileButton_clicked() {
-    QStringList filePathList = QFileDialog::getOpenFileNames(this, "Open file", "C://");
+    QStringList filePathList;
+    if (mode == OperationMode::DECRYPT) {
+        QString filter;
+        if (algorithm == EncryptionAlgorithm::RC4) {
+            filter = "RC4 encrypted (*.rc4)";
+        } else if (algorithm == EncryptionAlgorithm::RSA) {
+            filter = "RSA encrypted (*.rsa)";
+        } else if (algorithm == EncryptionAlgorithm::GOST) {
+            filter = "GOST encrypted (*.gost)";
+        }
+        filePathList = QFileDialog::getOpenFileNames(this, "Open file", "C://", filter);
+    } else {
+        filePathList = QFileDialog::getOpenFileNames(this, "Open file", "C://");
+    }
     if (!filePathList.isEmpty()) {
         ui->fileList->clear();
         ui->fileList->addItems(filePathList);

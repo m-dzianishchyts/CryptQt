@@ -141,7 +141,7 @@ void EncryptorGOST::print() {
     QDebug deb = qDebug();
     deb << "GOST. Key:";
     for (auto a : key) {
-        deb << " " << a;
+        deb << QString::number(a, 16);
     }
 }
 #endif

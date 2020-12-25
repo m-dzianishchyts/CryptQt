@@ -15,7 +15,7 @@ public:
 
     std::vector<uint8_t> *encrypt(const std::vector<uint8_t> &data) override;
     std::vector<uint8_t> *decrypt(const std::vector<uint8_t> &cipher) override;
-    void reset(const std::vector<uint8_t> &key);
+    void reset();
 
     #ifdef QT_DEBUG
         void print() override;
@@ -24,10 +24,11 @@ public:
 
 private:
     std::array<uint8_t, 256> *sBlock = nullptr;
+    const std::vector<uint8_t> *initialKey;
     uint16_t x = 0;
     uint16_t y = 0;
 
-    void initSBlock(const std::vector<uint8_t> &key);
+    void initSBlock();
     uint8_t keyItem();
     void swap(uint8_t &a, uint8_t &b);
 };

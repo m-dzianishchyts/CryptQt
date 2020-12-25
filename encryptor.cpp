@@ -78,7 +78,7 @@ AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::s
     }
     saveKeyGOST(gostKey, directory);
     encryptorGOST->seed = dist(rng);
-    return new EncryptorGOST();
+    return encryptorGOST;
 }
 
 AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, OperationMode mode,
@@ -210,16 +210,16 @@ std::string getFileExtensionForAlgorithm(EncryptionAlgorithm algorithm) {
     return ".gost";
 }
 
-std::string getFileExtensionFromPath(std::string filePath) {
+std::string getFileExtensionFromPath(const std::string &filePath) {
     int dotPos = filePath.find_last_of('.');
     return dotPos >= 0 ? filePath.substr(dotPos) : "";
 }
 
 void processFiles(AbstractEncryptor &encryptor, bool mode, std::vector<std::string> &files,
                   std::list<std::string> &processedFiles) {
-    std::string fileExtension;
+    std::string resultfileExtension;
     if (mode == OperationMode::ENCRYPT) {
-        fileExtension = getFileExtensionForAlgorithm(encryptor.algorithm);
+        resultfileExtension = getFileExtensionForAlgorithm(encryptor.algorithm);
     }
 
     std::ifstream ifs;
@@ -251,12 +251,10 @@ void processFiles(AbstractEncryptor &encryptor, bool mode, std::vector<std::stri
                 processedData = encryptor.encrypt(contents);
             } else {
                 processedData = encryptor.decrypt(contents);
-                fileExtension = extractFileExtensionFromData(*processedData);
+                resultfileExtension = extractFileExtensionFromData(*processedData);
             }
 
-            int dotPos = files[i - 1].find_last_of('.');
-            std::string processedFilePath = files[i - 1].substr(0, dotPos > -1 ? dotPos : files[i - 1].length())
-                    .append(fileExtension);
+            std::string processedFilePath = files[i - 1].append(resultfileExtension);
             ofs.open(processedFilePath, std::ios::out | std::ios::binary);
             if (!ofs.fail()) {
                 ofs.write(reinterpret_cast<char *>(processedData->data()), processedData->size());
