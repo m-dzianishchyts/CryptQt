@@ -39,6 +39,8 @@ private slots:
 
     void on_randEncryptionKeyCheckBox_stateChanged(int newState);
 
+    void keyFileError();
+
 private:
     Ui::Application *ui;
 
@@ -47,10 +49,10 @@ private:
     OperationMode mode;
     EncryptionAlgorithm algorithm;
     std::vector<uint8_t> *key;
+    bool onExit = false;
+    bool inDialog = false;
+    bool keyError = false;
 
     void goToProcessing();
     void on_openKeyFileButton_clicked(QLineEdit *keyFileLineEdit);
-    std::thread *worker = nullptr;
-    bool onExit = false;
-    bool inDialog = false;
 };
