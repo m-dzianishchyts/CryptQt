@@ -6,8 +6,6 @@
 #include "gost.h"
 
 #include <string>
-#include <thread>
-#include <chrono>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QtDebug>
@@ -46,6 +44,9 @@ Application::Application(QWidget *parent) : QMainWindow(parent), ui(new Ui::Appl
     }
     stages.append(ui->completedGroupBox);
     currentGroupBox = new QList<QGroupBox*>::iterator(stages.begin());
+    files = new std::vector<std::string>();
+    generatedKeys = new std::list<std::string>;
+    processedFiles = new std::vector<std::string>;
 }
 
 Application::~Application() {
@@ -58,25 +59,16 @@ std::string getDirectoryOfFile(std::string filePath) {
     return filePath.substr(0, filePath.find_last_of("/") + 1);
 }
 
-void Application::goToProcessing() {
+void goToProcessing(const QString keyFilePath, std::vector<std::string> *files,
+                    EncryptionAlgorithm algorithm, OperationMode mode, bool randomKey,
+                    bool *keyError, bool *onExit, bool *inDialog, QLabel *progressLabel,
+                    std::list<std::string> *generatedKeys, std::vector<std::string> *processedFiles) {
     AbstractEncryptor *encryptor = nullptr;
-    QFile inputkeyFile;
-    std::list<std::string> generatedKeys;
-    if (mode == OperationMode::ENCRYPT) {
-        inputkeyFile.setFileName(ui->encryptionKeyLineEdit->text());
-    } else {
-        inputkeyFile.setFileName(ui->decryptionKeyLineEdit->text());
-    }
-
-    std::vector<std::string> files;
-    for (int i = 0; i < ui->fileList->count(); i++) {
-        files.push_back(ui->fileList->item(i)->text().toStdString());
-    }
-
+    QFile inputkeyFile(keyFilePath);
     bool validEncryptor = false;
-    if (mode == OperationMode::ENCRYPT && ui->randEncryptionKeyCheckBox->isChecked()) {
-        std::string dir = getDirectoryOfFile(files.back());
-        encryptor = generateEncryptor(algorithm, dir, generatedKeys);
+    if (mode == OperationMode::ENCRYPT && randomKey) {
+        std::string dir = getDirectoryOfFile(files->back());
+        encryptor = generateEncryptor(algorithm, dir, *generatedKeys);
         validEncryptor = true;
     } else {
         if (inputkeyFile.open(QFile::ReadOnly)) {
@@ -91,7 +83,7 @@ void Application::goToProcessing() {
             encryptor = generateEncryptor(algorithm, mode, keyContainer);
             validEncryptor = true;
         } else {
-            keyError = true;
+            *keyError = true;
         }
     }
 
@@ -102,46 +94,27 @@ void Application::goToProcessing() {
                 encryptor->print();
             #endif
             qDebug();
-            processFiles(*encryptor, mode, onExit, files, processedFilesStl, *ui->progressLabel);
+            processFiles(*encryptor, mode, *onExit, *files, processedFilesStl, *progressLabel);
+        }
+
+        for (const auto &filePath : processedFilesStl) {
+            processedFiles->push_back(filePath);
         }
 
 
-        while (inDialog) {
-            std::this_thread::sleep_for(std::chrono::seconds(1));
+        while (*inDialog) {
+            QThread::sleep(1);
         }
 
-        if (!onExit) {
-            ui->processedFileList->clear();
-            for (const auto &filePath : processedFilesStl) {
-                ui->processedFileList->addItem(QString::fromStdString(*(new std::string(filePath))));
-            }
-            for (const auto &filePath : files) {
-                ui->failedFileList->addItem(QString::fromStdString(*(new std::string(filePath))));
-            }
-            if (mode == OperationMode::ENCRYPT && ui->randEncryptionKeyCheckBox->isChecked()) {
-                for (const auto &filePath : generatedKeys) {
-                    ui->generatedKeysList->addItem(QString::fromStdString(*(new std::string(filePath))));
-                }
-            } else {
-                ui->keyFile->hide();
-                ui->generatedKeysList->hide();
-            }
-            ui->cancelButton->setText("Exit");
-            ui->loadingLabel->hide();
-            ui->progressLabel->hide();
-            currentGroupBox->i->t()->hide();
-            (*currentGroupBox)++;
-            currentGroupBox->i->t()->show();
-        } else {
+        if (*onExit) {
             for (const auto &filePath : processedFilesStl) {
                 remove(filePath.c_str());
             }
-            if (mode == OperationMode::ENCRYPT && ui->randEncryptionKeyCheckBox->isChecked()) {
-                for (const auto &filePath : generatedKeys) {
+            if (mode == OperationMode::ENCRYPT && randomKey) {
+                for (const auto &filePath : *generatedKeys) {
                    remove(filePath.c_str());
                 }
             }
-            close();
         }
         delete(encryptor);
     }
@@ -160,9 +133,6 @@ void Application::on_backButton_clicked() {
     currentGroupBox->i->t()->show();
 }
 
-// TO_DO:
-// * fix GOST
-// * refactor
 void Application::on_nextButton_clicked() {
     if (currentGroupBox->i->t() == ui->decryptionKeyGroupBox || currentGroupBox->i->t() == ui->encryptionKeyGroupBox) {
         ui->nextButton->hide();
@@ -170,10 +140,34 @@ void Application::on_nextButton_clicked() {
         ui->loadingLabel->show();
         ui->progressLabel->show();
         currentGroupBox->i->t()->setEnabled(false);
-        QThread *worker = QThread::create([this] {
-            goToProcessing();
+
+        files->clear();
+        for (int i = 0; i < ui->fileList->count(); i++) {
+            files->push_back(ui->fileList->item(i)->text().toStdString());
+        }
+        QString keyFilePath;
+        if (currentGroupBox->i->t() == ui->encryptionKeyGroupBox) {
+            keyFilePath = ui->encryptionKeyLineEdit->text();
+        } else {
+            keyFilePath = ui->decryptionKeyLineEdit->text();
+        }
+        auto workerFiles = files;
+        auto workerAlgorithm = algorithm;
+        auto workerMode = mode;
+        auto workerRandomKey = ui->randEncryptionKeyCheckBox->isChecked();
+        auto workerKeyError = &keyError;
+        auto workerOnExit = &onExit;
+        auto workerInDialog = &inDialog;
+        auto workerProgressLabel = ui->progressLabel;
+        auto workerGeneratedKeys = generatedKeys;
+        auto workerProcessedFiles = processedFiles;
+        QThread *worker = QThread::create([keyFilePath, workerFiles, workerAlgorithm, workerMode, workerRandomKey,
+                                          workerKeyError, workerOnExit, workerInDialog, workerProgressLabel,
+                                          workerGeneratedKeys, workerProcessedFiles] {
+            goToProcessing(keyFilePath, workerFiles, workerAlgorithm, workerMode, workerRandomKey, workerKeyError,
+                           workerOnExit, workerInDialog, workerProgressLabel, workerGeneratedKeys, workerProcessedFiles);
         });
-        connect(worker, &QThread::finished, this, &Application::keyFileError);
+        connect(worker, &QThread::finished, this, &Application::workerFinished);
         worker->start();
     } else {
         currentGroupBox->i->t()->hide();
@@ -280,7 +274,7 @@ void Application::on_randEncryptionKeyCheckBox_stateChanged(int newState) {
     }
 }
 
-void Application::keyFileError()
+void Application::workerFinished()
 {
     if (keyError) {
         QMessageBox::critical(this, "Key file error",
@@ -292,6 +286,30 @@ void Application::keyFileError()
         ui->nextButton->show();
         ui->backButton->show();
         keyError = false;
+    } else if (onExit) {
+        close();
+    } else {
+        ui->processedFileList->clear();
+        for (const auto &filePath : *processedFiles) {
+            ui->processedFileList->addItem(QString::fromStdString(*(new std::string(filePath))));
+        }
+        for (const auto &filePath : *files) {
+            ui->failedFileList->addItem(QString::fromStdString(*(new std::string(filePath))));
+        }
+        if (mode == OperationMode::ENCRYPT && ui->randEncryptionKeyCheckBox->isChecked()) {
+            for (const auto &filePath : *generatedKeys) {
+                ui->generatedKeysList->addItem(QString::fromStdString(*(new std::string(filePath))));
+            }
+        } else {
+            ui->keyFile->hide();
+            ui->generatedKeysList->hide();
+        }
+        ui->cancelButton->setText("Exit");
+        ui->loadingLabel->hide();
+        ui->progressLabel->hide();
+        currentGroupBox->i->t()->hide();
+        (*currentGroupBox)++;
+        currentGroupBox->i->t()->show();
     }
 }
 

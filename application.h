@@ -36,7 +36,7 @@ private slots:
 
     void on_randEncryptionKeyCheckBox_stateChanged(int newState);
 
-    void keyFileError();
+    void workerFinished();
 
 private:
     Ui::Application *ui;
@@ -45,11 +45,12 @@ private:
     QList<QGroupBox*> stages;
     OperationMode mode;
     EncryptionAlgorithm algorithm;
-    std::vector<uint8_t> *key;
+    std::vector<std::string> *files;
+    std::list<std::string> *generatedKeys;
+    std::vector<std::string> *processedFiles;
     bool onExit = false;
     bool inDialog = false;
     bool keyError = false;
 
-    void goToProcessing();
     void on_openKeyFileButton_clicked(QLineEdit *keyFileLineEdit);
 };
