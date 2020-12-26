@@ -1,9 +1,21 @@
 #include "gost.h"
 #include "mathutils.h"
 
-EncryptorGOST28147_89::EncryptorGOST28147_89() {}
+#include <random>
+
+EncryptorGOST28147_89::EncryptorGOST28147_89() {
+    algorithm = EncryptionAlgorithm::GOST28147_89;
+    std::mt19937_64 rng(currentTime());
+    std::uniform_int_distribution<uint32_t> dist(0, UINT32_MAX);
+    std::vector<uint32_t> gostKey;
+    for (size_t i = 0; i < 8; i++) {
+        gostKey.push_back(dist(rng));
+        key[i] = gostKey.back();
+    }
+}
 
 EncryptorGOST28147_89::EncryptorGOST28147_89(uint32_t key[8]) {
+    algorithm = EncryptionAlgorithm::GOST28147_89;
     for (size_t i = 0; i < 8; i++) {
         EncryptorGOST28147_89::key[i] = key[i];
     }
@@ -81,7 +93,8 @@ std::vector<uint8_t> *EncryptorGOST28147_89::encrypt(const std::vector<uint8_t> 
     delete(dataCopy);
 
     auto result32 = new std::vector<uint32_t>(data32->size());
-    uint32_t s = seed = mesAuthCode(*data32);
+    uint32_t s = mesAuthCode(*data32);
+    uint32_t seed = s;
     for (size_t i = 0; i < data32->size(); i++) {
         (*result32)[i] = (*data32)[i] ^ basicEncrypt(s);
         s = (*result32)[i];

@@ -23,8 +23,7 @@ public:
         void print() override;
     #endif
 
-    uint32_t key[8] = {};
-    uint32_t seed = 0;
+    std::array<uint32_t, 8> key = {};
 
 private:
 

@@ -9,6 +9,8 @@
 class EncryptorRSA : public AbstractEncryptor {
 
 public:
+    EncryptorRSA();
+    EncryptorRSA(OperationMode mode, const std::vector<uint8_t> &keyContainer);
     ~EncryptorRSA() override;
 
     std::vector<uint8_t> *encrypt(const std::vector<uint8_t> &data) override;

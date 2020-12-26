@@ -1,5 +1,45 @@
 #include "rsa.h"
 
+#include <QThread>
+
+EncryptorRSA::EncryptorRSA() {
+    algorithm = EncryptionAlgorithm::RSA;
+    int16_t p = generatePrime();
+    QThread::usleep(1);
+    int16_t q = generatePrime();
+    modulus = p * q;
+    int32_t phi = (p - 1) * (q - 1);
+    for (int32_t attempt : {17, 257, 65537}) {
+        if (gcd(phi, attempt) == 1) {
+            publicExp = attempt;
+            break;
+        }
+    }
+    for (int32_t attempt = 32768; publicExp == 0 && attempt > 8; attempt /= 2) {
+        if (gcd(phi, (uint64_t) attempt + 1) == 1) {
+            publicExp = (uint64_t) attempt + 1;
+            break;
+        }
+    }
+    privateExp = static_cast<uint32_t>(modInverse(publicExp, phi));
+}
+
+EncryptorRSA::EncryptorRSA(OperationMode mode, const std::vector<uint8_t> &keyContainer) {
+    algorithm = EncryptionAlgorithm::RSA;
+    for (uint8_t i = 0; i < 4; i++) {
+        modulus = (modulus << 8) + keyContainer[i];
+    }
+    if (mode == OperationMode::ENCRYPT) {
+        for (uint8_t i = 4; i < 8; i++) {
+            publicExp = (publicExp << 8) + keyContainer[i];
+        }
+    } else {
+        for (uint8_t i = 4; i < 8; i++) {
+            privateExp = (privateExp << 8) + keyContainer[i];
+        }
+    }
+}
+
 EncryptorRSA::~EncryptorRSA() {}
 
 uint8_t computeBlockSize(uint64_t modulus) {

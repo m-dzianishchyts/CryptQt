@@ -1,6 +1,21 @@
 #include "rc4.h"
+#include "mathutils.h"
 
+#include <random>
+
+EncryptorRC4::EncryptorRC4() {
+    algorithm = EncryptionAlgorithm::RC4;
+    auto keyContainer = new std::vector<uint8_t>(64);
+    std::mt19937_64 rng(currentTime());
+    std::uniform_int_distribution<uint8_t> dist(0, CHAR_MAX);
+    for (size_t i = 0; i < keyContainer->size(); i++) {
+        keyContainer->at(i) = dist(rng);
+    }
+    initialKey = keyContainer;
+    reset();
+}
 EncryptorRC4::EncryptorRC4(const std::vector<uint8_t> &key) {
+    algorithm = EncryptionAlgorithm::RC4;
     initialKey = new std::vector<uint8_t>(key);
     reset();
 }

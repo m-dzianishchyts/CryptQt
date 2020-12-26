@@ -19,63 +19,27 @@ std::string saveKeyGOST28147_89(const std::vector<uint32_t> gostKey, std::string
 AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::string directory,
                                      std::list<std::string> &generatedKeyPaths) {
     if (algorithm == EncryptionAlgorithm::RC4) {
-        auto keyContainer = new std::vector<uint8_t>(64);
-        std::mt19937_64 rng(currentTime());
-        std::uniform_int_distribution<uint8_t> dist(0, CHAR_MAX);
-        for (size_t i = 0; i < keyContainer->size(); i++) {
-            keyContainer->at(i) = dist(rng);
-        }
+        EncryptorRC4 *encryptorRC4 = new EncryptorRC4();
+        generatedKeyPaths.push_back(saveKeyRC4(*encryptorRC4->initialKey, directory));
 
         #ifdef QT_DEBUG
             QDebug deb = qDebug();
             deb << "RC4 init key: ";
-            for (auto a : *keyContainer) {
+            for (auto a : *encryptorRC4->initialKey) {
                 deb << QString::number(a, 16);
             }
         #endif
 
-        EncryptorRC4 *encryptorRC4 = new EncryptorRC4(*keyContainer);
-        encryptorRC4->algorithm = EncryptionAlgorithm::RC4;
-        generatedKeyPaths.push_back(saveKeyRC4(*keyContainer, directory));
-        delete(keyContainer);
         return encryptorRC4;
     } else if (algorithm == EncryptionAlgorithm::RSA) {
         EncryptorRSA *encryptorRSA = new EncryptorRSA();
-        encryptorRSA->algorithm = EncryptionAlgorithm::RSA;
-
-        int16_t p = generatePrime();
-        QThread::usleep(1);
-        int16_t q = generatePrime();
-        encryptorRSA->modulus = p * q;
-        int32_t phi = (p - 1) * (q - 1);
-        for (int32_t attempt : {17, 257, 65537}) {
-            if (gcd(phi, attempt) == 1) {
-                encryptorRSA->publicExp = attempt;
-                break;
-            }
-        }
-        for (int32_t attempt = 32768; encryptorRSA->publicExp == 0 && attempt > 8; attempt /= 2) {
-            if (gcd(phi, (uint64_t) attempt + 1) == 1) {
-                encryptorRSA->publicExp = (uint64_t) attempt + 1;
-                break;
-            }
-        }
-        encryptorRSA->privateExp = static_cast<uint32_t>(modInverse(encryptorRSA->publicExp, phi));
         generatedKeyPaths.push_back(savePublicKeyRSA(encryptorRSA->modulus, encryptorRSA->publicExp, directory));
         generatedKeyPaths.push_back(savePrivateKeyRSA(encryptorRSA->modulus, encryptorRSA->privateExp, directory));
         return encryptorRSA;
     }
     EncryptorGOST28147_89 *encryptorGOST28147_89 = new EncryptorGOST28147_89();
-    encryptorGOST28147_89->algorithm = EncryptionAlgorithm::GOST28147_89;
-    std::mt19937_64 rng(currentTime());
-    std::uniform_int_distribution<uint32_t> dist(0, UINT32_MAX);
-    std::vector<uint32_t> gostKey;
-    for (size_t i = 0; i < 8; i++) {
-        gostKey.push_back(dist(rng));
-        encryptorGOST28147_89->key[i] = gostKey.back();
-    }
-    generatedKeyPaths.push_back(saveKeyGOST28147_89(gostKey, directory));
-    encryptorGOST28147_89->seed = dist(rng);
+    generatedKeyPaths.push_back(saveKeyGOST28147_89(std::vector<uint32_t>(encryptorGOST28147_89->key.begin(),
+                                                                encryptorGOST28147_89->key.end()), directory));
     return encryptorGOST28147_89;
 }
 
@@ -92,27 +56,11 @@ AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, OperationMod
     AbstractEncryptor *encryptor;
     if (algorithm == EncryptionAlgorithm::RC4) {
         encryptor = new EncryptorRC4(keyContainer);
-        encryptor->algorithm = EncryptionAlgorithm::RC4;
     } else if (algorithm == EncryptionAlgorithm::RSA) {
-        EncryptorRSA *encryptorRSA = new EncryptorRSA();
-        encryptorRSA->algorithm = EncryptionAlgorithm::RSA;
-        for (uint8_t i = 0; i < 4; i++) {
-            encryptorRSA->modulus = (encryptorRSA->modulus << 8) + keyContainer[i];
-        }
-        if (mode == OperationMode::ENCRYPT) {
-            for (uint8_t i = 4; i < 8; i++) {
-                encryptorRSA->publicExp = (encryptorRSA->publicExp << 8) + keyContainer[i];
-            }
-        } else {
-            for (uint8_t i = 4; i < 8; i++) {
-                encryptorRSA->privateExp = (encryptorRSA->privateExp << 8) + keyContainer[i];
-            }
-        }
-        encryptor = encryptorRSA;
+        encryptor = new EncryptorRSA(mode, keyContainer);
     } else {
         auto gostKey = resize<uint8_t, uint32_t>(keyContainer);
         encryptor = new EncryptorGOST28147_89(gostKey->data());
-        encryptor->algorithm = EncryptionAlgorithm::GOST28147_89;
         delete(gostKey);
     }
     return encryptor;
