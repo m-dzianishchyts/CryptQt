@@ -978,7 +978,7 @@ Processed files:</string>
        <x>40</x>
        <y>200</y>
        <width>461</width>
-       <height>76</height>
+       <height>69</height>
       </rect>
      </property>
     </widget>
@@ -986,9 +986,9 @@ Processed files:</string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>315</y>
+       <y>308</y>
        <width>461</width>
-       <height>61</height>
+       <height>69</height>
       </rect>
      </property>
     </widget>
@@ -996,7 +996,7 @@ Processed files:</string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>295</y>
+       <y>288</y>
        <width>461</width>
        <height>21</height>
       </rect>
