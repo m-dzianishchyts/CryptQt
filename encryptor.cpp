@@ -7,11 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <random>
-#include <QDataStream>
-#include <QFile>
-#include <QDebug>
 #include <QThread>
-
 
 AbstractEncryptor::~AbstractEncryptor() {}
 

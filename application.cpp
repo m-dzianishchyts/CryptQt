@@ -137,9 +137,9 @@ void Application::goToProcessing() {
                 remove(filePath.c_str());
             }
             if (mode == OperationMode::ENCRYPT && ui->randEncryptionKeyCheckBox->isChecked()) {
-                std::string newkeyFileName = getDirectoryOfFile(processedFilesStl.front()) +
-                        "key" + getFileExtensionForAlgorithm(encryptor->algorithm) + "key";
-                remove(newkeyFileName.c_str());
+                for (const auto &filePath : generatedKeys) {
+                   remove(filePath.c_str());
+                }
             }
             close();
         }

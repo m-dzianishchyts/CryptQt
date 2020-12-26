@@ -5,9 +5,6 @@
 #include <QMainWindow>
 #include <QGroupBox>
 #include <QLineEdit>
-#include <vector>
-#include <thread>
-#include <cstdint>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Application; }
