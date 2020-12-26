@@ -133,10 +133,12 @@ void Application::goToProcessing() {
             (*currentGroupBox)++;
             currentGroupBox->i->t()->show();
         } else {
+            for (const auto &filePath : processedFilesStl) {
+                remove(filePath.c_str());
+            }
             if (mode == OperationMode::ENCRYPT && ui->randEncryptionKeyCheckBox->isChecked()) {
-                std::string newkeyFileName = getDirectoryOfFile(files.front()) +
+                std::string newkeyFileName = getDirectoryOfFile(processedFilesStl.front()) +
                         "key" + getFileExtensionForAlgorithm(encryptor->algorithm) + "key";
-                qDebug() << QString::fromStdString(newkeyFileName);
                 remove(newkeyFileName.c_str());
             }
             close();
@@ -206,9 +208,11 @@ void Application::on_cancelButton_clicked() {
             if (currentGroupBox->i->t() == ui->decryptionKeyGroupBox || currentGroupBox->i->t() == ui->encryptionKeyGroupBox) {
                 onExit = true;
                 ui->progressLabel->setText("Canceling...");
+            } else {
+                close();
             }
         }
-        inDialog = false;
+    inDialog = false;
     }
 }
 
@@ -250,8 +254,8 @@ void Application::on_openFileButton_clicked() {
             filter = "RC4 encrypted (*.rc4)";
         } else if (algorithm == EncryptionAlgorithm::RSA) {
             filter = "RSA encrypted (*.rsa)";
-        } else if (algorithm == EncryptionAlgorithm::GOST_28147_89) {
-            filter = "GOST_28147_89 encrypted (*.gost)";
+        } else if (algorithm == EncryptionAlgorithm::GOST28147_89) {
+            filter = "GOST28147_89 encrypted (*.gost)";
         }
         filePathList = QFileDialog::getOpenFileNames(this, "Open file", "C://", filter);
     } else {
@@ -301,8 +305,8 @@ void Application::on_openKeyFileButton_clicked(QLineEdit *keyFileLineEdit) {
         filter = "RC4 key (*.rc4key)";
     } else if (algorithm == EncryptionAlgorithm::RSA) {
         filter = "RSA key (*.rsakey)";
-    } else if (algorithm == EncryptionAlgorithm::GOST_28147_89) {
-        filter = "GOST_28147_89 key (*.gostkey)";
+    } else if (algorithm == EncryptionAlgorithm::GOST28147_89) {
+        filter = "GOST28147_89 key (*.gostkey)";
     }
     QString filePath = QFileDialog::getOpenFileName(this, "Open file", "C://", filter, &filter);
     if (!filePath.isEmpty()) {

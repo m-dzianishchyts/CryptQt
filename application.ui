@@ -399,7 +399,7 @@ Select the encryption algorithm you want to work with: </string>
      </item>
      <item>
       <property name="text">
-       <string>GOST</string>
+       <string>GOST28147_89</string>
       </property>
      </item>
     </widget>
@@ -920,7 +920,7 @@ Processed files:</string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>390</y>
+       <y>385</y>
        <width>461</width>
        <height>21</height>
       </rect>
@@ -978,7 +978,7 @@ Processed files:</string>
        <x>40</x>
        <y>200</y>
        <width>461</width>
-       <height>81</height>
+       <height>76</height>
       </rect>
      </property>
     </widget>
@@ -986,7 +986,7 @@ Processed files:</string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>320</y>
+       <y>315</y>
        <width>461</width>
        <height>61</height>
       </rect>
@@ -996,7 +996,7 @@ Processed files:</string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>300</y>
+       <y>295</y>
        <width>461</width>
        <height>21</height>
       </rect>
@@ -1024,9 +1024,9 @@ Processed files:</string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>410</y>
+       <y>405</y>
        <width>461</width>
-       <height>41</height>
+       <height>46</height>
       </rect>
      </property>
     </widget>

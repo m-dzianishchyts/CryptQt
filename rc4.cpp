@@ -1,9 +1,5 @@
 #include "rc4.h"
 
-#ifdef QT_DEBUG
-#include "iostream"
-#endif
-
 EncryptorRC4::EncryptorRC4(const std::vector<uint8_t> &key) {
     initialKey = new std::vector<uint8_t>(key);
     reset();

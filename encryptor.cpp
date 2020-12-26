@@ -18,7 +18,7 @@ AbstractEncryptor::~AbstractEncryptor() {}
 std::string saveKeyRC4(const std::vector<uint8_t> &keyContainer, std::string directory);
 std::string savePublicKeyRSA(uint32_t modulus, uint32_t publicExp, std::string directory);
 std::string savePrivateKeyRSA(uint32_t modulus, uint32_t privateExp, std::string directory);
-std::string saveKeyGOST_28147_89(const std::vector<uint32_t> gostKey, std::string directory);
+std::string saveKeyGOST28147_89(const std::vector<uint32_t> gostKey, std::string directory);
 
 AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::string directory,
                                      std::list<std::string> &generatedKeyPaths) {
@@ -69,18 +69,18 @@ AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, const std::s
         generatedKeyPaths.push_back(savePrivateKeyRSA(encryptorRSA->modulus, encryptorRSA->privateExp, directory));
         return encryptorRSA;
     }
-    EncryptorGOST_28147_89 *encryptorGOST_28147_89 = new EncryptorGOST_28147_89();
-    encryptorGOST_28147_89->algorithm = EncryptionAlgorithm::GOST_28147_89;
+    EncryptorGOST28147_89 *encryptorGOST28147_89 = new EncryptorGOST28147_89();
+    encryptorGOST28147_89->algorithm = EncryptionAlgorithm::GOST28147_89;
     std::mt19937_64 rng(currentTime());
     std::uniform_int_distribution<uint32_t> dist(0, UINT32_MAX);
     std::vector<uint32_t> gostKey;
     for (size_t i = 0; i < 8; i++) {
         gostKey.push_back(dist(rng));
-        encryptorGOST_28147_89->key[i] = gostKey.back();
+        encryptorGOST28147_89->key[i] = gostKey.back();
     }
-    generatedKeyPaths.push_back(saveKeyGOST_28147_89(gostKey, directory));
-    encryptorGOST_28147_89->seed = dist(rng);
-    return encryptorGOST_28147_89;
+    generatedKeyPaths.push_back(saveKeyGOST28147_89(gostKey, directory));
+    encryptorGOST28147_89->seed = dist(rng);
+    return encryptorGOST28147_89;
 }
 
 AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, OperationMode mode,
@@ -115,8 +115,8 @@ AbstractEncryptor *generateEncryptor(EncryptionAlgorithm algorithm, OperationMod
         encryptor = encryptorRSA;
     } else {
         auto gostKey = resize<uint8_t, uint32_t>(keyContainer);
-        encryptor = new EncryptorGOST_28147_89(gostKey->data());
-        encryptor->algorithm = EncryptionAlgorithm::GOST_28147_89;
+        encryptor = new EncryptorGOST28147_89(gostKey->data());
+        encryptor->algorithm = EncryptionAlgorithm::GOST28147_89;
         delete(gostKey);
     }
     return encryptor;
@@ -156,7 +156,7 @@ std::string savePrivateKeyRSA(uint32_t modulus, uint32_t privateExp, std::string
     return privateKeyFilePath;
 }
 
-std::string saveKeyGOST_28147_89(const std::vector<uint32_t> gostKey, std::string directory) {
+std::string saveKeyGOST28147_89(const std::vector<uint32_t> gostKey, std::string directory) {
     std::string keyFilePath = directory + "key.gostkey";
     std::ofstream ofs(keyFilePath, std::ios::out | std::ios::binary);
     for (auto value : gostKey) {
@@ -177,7 +177,7 @@ EncryptionAlgorithm algorithmValueOf(std::string str) {
     } else if (str.compare("RSA") == 0) {
         return EncryptionAlgorithm::RSA;
     }
-    return EncryptionAlgorithm::GOST_28147_89;
+    return EncryptionAlgorithm::GOST28147_89;
 }
 
 OperationMode modeValueOf(std::string str) {
@@ -228,7 +228,7 @@ std::string getFileExtensionFromPath(const std::string &filePath) {
 void processFiles(AbstractEncryptor &encryptor, bool mode, bool &cancelState, std::vector<std::string> &files,
                   std::list<std::string> &processedFiles, QLabel &progressLabel) {
     uint64_t fileCounter = 0;
-    progressLabel.setText(QString::asprintf("%3llu / %-3llu", fileCounter, files.size() + processedFiles.size()));
+    progressLabel.setText(QString::asprintf("Working on... [%llu / %-llu]", fileCounter, files.size() + processedFiles.size()));
     std::string resultfileExtension;
     if (mode == OperationMode::ENCRYPT) {
         resultfileExtension = getFileExtensionForAlgorithm(encryptor.algorithm);
@@ -284,12 +284,6 @@ void processFiles(AbstractEncryptor &encryptor, bool mode, bool &cancelState, st
         if (!cancelState) {
             progressLabel.setText(QString::asprintf("Working on... [%llu / %-llu]", ++fileCounter,
                                                     files.size() + processedFiles.size()));
-        }
-    }
-
-    if (cancelState) {
-        for (const auto &filePath : processedFiles) {
-            remove(filePath.c_str());
         }
     }
 }

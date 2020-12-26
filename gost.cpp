@@ -1,20 +1,17 @@
 #include "gost.h"
 #include "mathutils.h"
-#include "iostream"
 
-#include <random>
+EncryptorGOST28147_89::EncryptorGOST28147_89() {}
 
-EncryptorGOST_28147_89::EncryptorGOST_28147_89() {}
-
-EncryptorGOST_28147_89::EncryptorGOST_28147_89(uint32_t key[8]) {
+EncryptorGOST28147_89::EncryptorGOST28147_89(uint32_t key[8]) {
     for (size_t i = 0; i < 8; i++) {
-        EncryptorGOST_28147_89::key[i] = key[i];
+        EncryptorGOST28147_89::key[i] = key[i];
     }
 }
 
-EncryptorGOST_28147_89::~EncryptorGOST_28147_89() {}
+EncryptorGOST28147_89::~EncryptorGOST28147_89() {}
 
-uint32_t EncryptorGOST_28147_89::basicOperation(uint64_t n, uint32_t keyPart) {
+uint32_t EncryptorGOST28147_89::basicOperation(uint64_t n, uint32_t keyPart) {
     uint32_t n1 = (uint32_t) n;
     uint32_t n2 = n >> 32;
 
@@ -37,7 +34,7 @@ uint32_t EncryptorGOST_28147_89::basicOperation(uint64_t n, uint32_t keyPart) {
     return ((uint64_t) n2 << 32) + n1;;
 }
 
-uint32_t EncryptorGOST_28147_89::basicEncrypt(uint32_t n) {
+uint32_t EncryptorGOST28147_89::basicEncrypt(uint32_t n) {
     for (size_t i = 0; i < 3; i++) {
         for (size_t j = 0; j < 8; j++) {
             n = basicOperation(n, key[j]);
@@ -49,7 +46,7 @@ uint32_t EncryptorGOST_28147_89::basicEncrypt(uint32_t n) {
     return leftShift32(n, 16);
 }
 
-uint32_t EncryptorGOST_28147_89::basicDecrypt(uint32_t n) {
+uint32_t EncryptorGOST28147_89::basicDecrypt(uint32_t n) {
     for (size_t i = 0; i < 8; i++) {
         n = basicOperation(n, key[i]);
     }
@@ -61,7 +58,7 @@ uint32_t EncryptorGOST_28147_89::basicDecrypt(uint32_t n) {
     return leftShift32(n, 16);
 }
 
-uint32_t EncryptorGOST_28147_89::basicMesAuthcode(uint32_t n) {
+uint32_t EncryptorGOST28147_89::basicMesAuthcode(uint32_t n) {
     for (size_t i = 0; i < 2; i++) {
         for (size_t j = 0; j < 8; j++) {
             n = basicOperation(n, key[j]);
@@ -70,7 +67,7 @@ uint32_t EncryptorGOST_28147_89::basicMesAuthcode(uint32_t n) {
     return n;
 }
 
-std::vector<uint8_t> *EncryptorGOST_28147_89::encrypt(const std::vector<uint8_t> &data) {
+std::vector<uint8_t> *EncryptorGOST28147_89::encrypt(const std::vector<uint8_t> &data) {
     if (data.empty()) {
         return new std::vector<uint8_t>();
     }
@@ -99,16 +96,16 @@ std::vector<uint8_t> *EncryptorGOST_28147_89::encrypt(const std::vector<uint8_t>
     return result;
 }
 
-std::vector<uint8_t> *EncryptorGOST_28147_89::decrypt(const std::vector<uint8_t> &cipher) {
+std::vector<uint8_t> *EncryptorGOST28147_89::decrypt(const std::vector<uint8_t> &cipher) {
     if (cipher.empty()) {
         return new std::vector<uint8_t>();
     }
 
     auto cipher32 = resize<uint8_t, uint32_t>(cipher);
+    uint32_t s = cipher32->back();
+    cipher32->pop_back();
 
     auto result32 = new std::vector<uint32_t>(cipher32->size());
-    uint32_t s = result32->back();
-    result32->pop_back();
     for (size_t i = 0; i < cipher32->size(); i++) {
         (*result32)[i] = (*cipher32)[i] ^ basicEncrypt(s);
         s = (*cipher32)[i];
@@ -128,7 +125,7 @@ std::vector<uint8_t> *EncryptorGOST_28147_89::decrypt(const std::vector<uint8_t>
     return result;
 }
 
-uint32_t EncryptorGOST_28147_89::mesAuthCode(const std::vector<uint32_t> &data) {
+uint32_t EncryptorGOST28147_89::mesAuthCode(const std::vector<uint32_t> &data) {
     uint32_t s = 0;
     for (uint32_t piece : data) {
         s = basicMesAuthcode(s ^ piece);
@@ -137,9 +134,9 @@ uint32_t EncryptorGOST_28147_89::mesAuthCode(const std::vector<uint32_t> &data) 
 }
 
 #ifdef QT_DEBUG
-void EncryptorGOST_28147_89::print() {
+void EncryptorGOST28147_89::print() {
     QDebug deb = qDebug();
-    deb << "GOST_28147_89. Key:";
+    deb << "GOST28147_89. Key:";
     for (auto a : key) {
         deb << QString::number(a, 16);
     }
